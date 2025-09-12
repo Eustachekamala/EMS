@@ -1,4 +1,4 @@
-package org.eustache.employemanagement.DTOs.Requests;
+package org.eustache.employemanagement.DTOs;
 
 public record AddressDTO(
         Integer id,
