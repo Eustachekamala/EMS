@@ -1,0 +1,22 @@
+services:
+  db:
+    container_name: employee-management
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: EmployeeDB
+      POSTGRES_USER: eustache
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - db:/data/postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - db
+    restart: unless-stopped
+
+networks:
+  db:
+    driver: bridge
+volumes:
+  db:

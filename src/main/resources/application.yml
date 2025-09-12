@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: Employee Management
+  datasource:
+    url: jdbc:postgresql://localhost:5433/EmployeeDB
+    username: eustache
+    password: password
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/
+
