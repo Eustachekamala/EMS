@@ -1,4 +1,4 @@
-package org.eustache.employemanagement.DTOs;
+package org.eustache.employemanagement.DTOs.Responses;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

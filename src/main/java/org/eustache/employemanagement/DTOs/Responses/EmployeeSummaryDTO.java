@@ -1,4 +1,4 @@
-package org.eustache.employemanagement.DTOs;
+package org.eustache.employemanagement.DTOs.Responses;
 
 public record EmployeeSummaryDTO(
         Integer id,

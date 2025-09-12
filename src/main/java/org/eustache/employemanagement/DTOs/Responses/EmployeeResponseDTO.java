@@ -1,4 +1,8 @@
-package org.eustache.employemanagement.DTOs;
+package org.eustache.employemanagement.DTOs.Responses;
+
+import org.eustache.employemanagement.DTOs.AddressDTO;
+import org.eustache.employemanagement.DTOs.DepartmentDTO;
+import org.eustache.employemanagement.DTOs.JobDTO;
 
 import java.time.LocalDate;
 
