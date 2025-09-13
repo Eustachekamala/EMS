@@ -1,29 +1,26 @@
 # EMS
-A Spring Boot 3.5.5 based Employee Management System designed to manage employees, departments, jobs, payroll, and attendance records. 
-The project demonstrates clean architecture with JPA/Hibernate, DTOs, and relational mapping between entities.
+A Spring Boot–based application for managing employees, attendance, and related operations.
+This project demonstrates integration with RFID readers [via JSerialComm](https://fazecast.github.io/jSerialComm/) to enable automated check-in and check-out.
 
 ## 📌 Features
-* Employee Management:
-  * Add, update, delete, and view employees.
-  * Associate employees with departments, jobs, and addresses.
+* 👨‍💼 Employee management (CRUD)
+* 🕒 Attendance tracking : 
+  * Check-in / check-out simulation
+  * Automatic alternation between IN and OUT based on RFID scans
 ---
 * Department & Job Management
   * Manage organizational departments and job roles.
 ---
-* Attendance Tracking
-  * Record employee check-in/check-out times.
-  * Track attendance status per day.
+* 📡 Hardware integration with RFID reader (USB/Serial):
+  * The system listens to scans from a connected RFID reader.
+  * Each scan is linked to an employee via their RFID tag.
+  * The system automatically alternates:
+    * First scan of the day → ✅ Check-in
+    * Next scan → ✅ Check-out
 ---
 * Payroll Management
   * Generate payroll records for employees.
   * Automatic payment date handling with timestamps.
----
-* Relational Database Design
-  * One-to-Many: Department → Employees
-  * Many-to-One: Employee → Job
-  * One-to-One: Employee ↔ Address
-  * One-to-Many: Employee → Attendance
-  * Many-to-One: Employee ↔ Payroll
 ---
 ## 📊 Entity Relationship Diagram (ERD)
 ![Employee Management ERD](./docs/EmployeeManagement.png)
@@ -35,6 +32,7 @@ The project demonstrates clean architecture with JPA/Hibernate, DTOs, and relati
 * Java Version: OpenJDK 21+
 * Lombok: To reduce boilerplate code
 * Testing: JUnit + Mockito (planned)
+* jSerialComm (2.9.3) for RFID reader integration
 
 ## 🔮 Future Enhancements
 * Authentication & Role-based Access (Spring Security + JWT)
