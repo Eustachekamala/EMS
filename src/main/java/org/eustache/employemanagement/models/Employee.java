@@ -25,6 +25,9 @@ public class Employee {
     private String position;
     private BigDecimal salary;
 
+    @Column(unique = true)
+    private String rfidTag;
+
     //Relationships
     @ManyToOne
     @JoinColumn(name = "department_id") // FK of department

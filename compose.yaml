@@ -1,6 +1,6 @@
 services:
   db:
-    container_name: employee-management
+    container_name: ems
     image: postgres:latest
     environment:
       POSTGRES_DB: EmployeeDB
