@@ -20,4 +20,18 @@ public class AttendanceController {
     public ResponseEntity<AttendanceResponseDTO> markAttendance(@RequestBody AttendanceRequestDTO attendanceRequestDTO) {
         return ResponseEntity.ok().body(attendanceService.recordAttendance(attendanceRequestDTO));
     }
+
+    // ✅ Simulation endpoint: alternates check-in / check-out
+    @PostMapping("/simulate/{rfidTag}")
+    public ResponseEntity<AttendanceResponseDTO> simulateScan(@PathVariable String rfidTag) {
+        AttendanceRequestDTO dto = new AttendanceRequestDTO(
+                rfidTag,
+                null, // auto set date in service
+                null,
+                null,
+                null
+        );
+        AttendanceResponseDTO response = attendanceService.recordAttendance(dto);
+        return ResponseEntity.ok(response);
+    }
 }
