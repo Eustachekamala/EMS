@@ -1,59 +1,57 @@
-package org.eustache.employemanagement.Services;
+package org.eustache.employemanagement.Services; // lowercase
 
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
-import org.eustache.employemanagement.DAOs.AttendanceRepository;
-import org.eustache.employemanagement.DAOs.EmployeeRepository;
-import org.eustache.employemanagement.DTOs.Requests.AttendanceRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
-import org.eustache.employemanagement.models.Attendance;
-import org.eustache.employemanagement.models.Employee;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
 public class AttendanceService {
-    private final EmployeeRepository employeeRepository;
-    private final AttendanceRepository attendanceRepository;
 
-    public AttendanceResponseDTO recordAttendance(AttendanceRequestDTO dto){
-        Employee employee = employeeRepository.findByRfidTag(dto.rfidTag())
-                .orElseThrow(() -> new RuntimeException("Employee not found for RFID: " + dto.rfidTag()));
+    private final Map<String, AttendanceResponseDTO> activeAttendances = new HashMap<>();
+    @Getter
+    private final List<AttendanceResponseDTO> history = new ArrayList<>();
+    private int idCounter = 1;
 
-        LocalDate today = dto.attendanceDate() != null ? dto.attendanceDate() : LocalDate.now();
+    public synchronized AttendanceResponseDTO recordAttendance(EmployeeSummaryDTO employee) {
+        LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
+        String rfidTag = employee.rfidTag();
 
-        Attendance attendance = attendanceRepository.findByEmployeeAndAttendanceDate(employee, today)
-                .orElseGet(() -> {
-                    Attendance newAttendance = new Attendance();
-                    newAttendance.setEmployee(employee);
-                    newAttendance.setAttendanceDate(today);
-                    newAttendance.setCheckInTime(now);
-                    newAttendance.setAttendanceStatus("PRESENT");
-                    return newAttendance;
-                });
-
-        // If already checked in, update checkout time
-        if (attendance.getCheckInTime() != null && attendance.getCheckOutTime() == null) {
-            attendance.setCheckOutTime(now);
+        if (!activeAttendances.containsKey(rfidTag)) {
+            // Check-in
+            AttendanceResponseDTO record = new AttendanceResponseDTO(
+                    idCounter++,
+                    today,
+                    now,
+                    null,
+                    "CHECKED_IN",
+                    employee
+            );
+            activeAttendances.put(rfidTag, record);
+            return record;
+        } else {
+            // Check-out
+            AttendanceResponseDTO checkInRecord = activeAttendances.remove(rfidTag);
+            AttendanceResponseDTO record = new AttendanceResponseDTO(
+                    checkInRecord.id(),
+                    today,
+                    checkInRecord.checkInTime(),
+                    now,
+                    "CHECKED_OUT",
+                    checkInRecord.employee()
+            );
+            history.add(record);
+            return record;
         }
-
-        Attendance saved = attendanceRepository.save(attendance);
-        return new AttendanceResponseDTO(
-                saved.getAttendanceId(),
-                saved.getAttendanceDate(),
-                saved.getCheckInTime(),
-                saved.getCheckOutTime(),
-                saved.getAttendanceStatus(),
-                new EmployeeSummaryDTO(
-                        employee.getEmployeeId(),
-                        employee.getFirstname(),
-                        employee.getLastname(),
-                        employee.getEmail(),
-                        employee.getRfidTag())
-        );
     }
 }
