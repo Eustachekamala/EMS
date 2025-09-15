@@ -22,4 +22,38 @@ public class EmployeeService {
             employeeRepository.save(employee);
             return "Employee created successfully";
     }
+
+    public List<EmployeeSummaryDTO> getAllEmployees() {
+        List<Employee> employees = employeeRepository.findAll();
+        return employees.stream()
+                .map(employeeMapper::toEmployeeSummaryDTO)
+                .toList();
+    }
+
+    public EmployeeSummaryDTO getEmployeeById(Integer id) {
+        Employee employee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
+        return employeeMapper.toEmployeeSummaryDTO(employee);
+    }
+
+    public String deleteEmployee(Integer id) {
+        if (!employeeRepository.existsById(id)) {
+            throw new NotFoundException("Employee not found with id: " + id);
+        }
+        employeeRepository.deleteById(id);
+        return "Employee deleted successfully";
+    }
+
+    public String updateEmployee(Integer id, EmployeeRequestDTO employeerequestDTO) {
+        Employee existingEmployee = employeeRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
+        existingEmployee.setFirstname(employeerequestDTO.firstName());
+        existingEmployee.setLastname(employeerequestDTO.lastName());
+        existingEmployee.setEmail(employeerequestDTO.email());
+        existingEmployee.setPhone(employeerequestDTO.phone());
+        existingEmployee.setBirthDate(employeerequestDTO.dob());
+        existingEmployee.setGender(employeerequestDTO.gender());
+        employeeRepository.save(existingEmployee);
+        return "Employee updated successfully";
+    }
 }
