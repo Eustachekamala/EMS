@@ -39,4 +39,9 @@ public class EmployeeController {
     public ResponseEntity<String> deleteEmployee(@PathVariable Integer id) {
         return ResponseEntity.ok(employeeService.deleteEmployee(id));
     }
+
+    @GetMapping("/rfid/{rfid}")
+    public ResponseEntity<String> getEmployeeByRfid(@PathVariable String rfid) {
+        return ResponseEntity.ok(employeeService.getEmployeeByRfid(rfid));
+    }
 }

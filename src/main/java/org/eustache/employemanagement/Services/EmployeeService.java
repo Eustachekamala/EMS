@@ -56,4 +56,10 @@ public class EmployeeService {
         employeeRepository.save(existingEmployee);
         return "Employee updated successfully";
     }
+
+    public String getEmployeeByRfid(String rfid) {
+        Employee employee = employeeRepository.findByRfidTag(rfid)
+                .orElseThrow(() -> new NotFoundException("Employee not found with RFID: " + rfid));
+        return "Employee found: " + employee.getFirstname() + " " + employee.getLastname();
+    }
 }
