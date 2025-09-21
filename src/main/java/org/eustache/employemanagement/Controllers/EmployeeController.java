@@ -44,4 +44,14 @@ public class EmployeeController {
     public ResponseEntity<String> getEmployeeByRfid(@PathVariable String rfid) {
         return ResponseEntity.ok(employeeService.getEmployeeByRfid(rfid));
     }
+
+    @GetMapping("/search/{firstname}")
+    public ResponseEntity<EmployeeSummaryDTO> getEmployeeByFirstname(@PathVariable String firstname) {
+        return ResponseEntity.ok(employeeService.getEmployeeByFirstname(firstname));
+    }
+
+    @GetMapping("/search/lastname/{lastname}")
+    public ResponseEntity<EmployeeSummaryDTO> getEmployeeByLastname(@PathVariable String lastname) {
+        return ResponseEntity.ok(employeeService.getEmployeeByLastname(lastname));
+    }
 }

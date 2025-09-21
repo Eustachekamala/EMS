@@ -62,4 +62,16 @@ public class EmployeeService {
                 .orElseThrow(() -> new NotFoundException("Employee not found with RFID: " + rfid));
         return "Employee found: " + employee.getFirstname() + " " + employee.getLastname();
     }
+
+    public EmployeeSummaryDTO getEmployeeByFirstname(String firstname) {
+        Employee employee = employeeRepository.findByFirstname(firstname)
+                .orElseThrow(() -> new NotFoundException("Employee not found with firstname: " + firstname));
+        return employeeMapper.toEmployeeSummaryDTO(employee);
+    }
+
+    public EmployeeSummaryDTO getEmployeeByLastname(String lastname) {
+        Employee employee = employeeRepository.findByLastname(lastname)
+                .orElseThrow(() -> new NotFoundException("Employee not found with lastname: " + lastname));
+        return employeeMapper.toEmployeeSummaryDTO(employee);
+    }
 }
