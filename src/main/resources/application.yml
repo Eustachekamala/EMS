@@ -2,9 +2,9 @@ spring:
   application:
     name: Employee Management
   datasource:
-    url: jdbc:postgresql://localhost:5433/EmployeeDB
-    username: eustache
-    password: password
+    url: ${DATABASE_URL}
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     driver-class-name: org.postgresql.Driver
 
   jpa:
