@@ -15,6 +15,22 @@ services:
       - db
     restart: unless-stopped
 
+  app:
+    build: .
+    container_name: employee-management-app
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5433/EmployeeDB
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+
+    ports:
+      - "8082:8080"
+
+    networks:
+        - db
+
 networks:
   db:
     driver: bridge
