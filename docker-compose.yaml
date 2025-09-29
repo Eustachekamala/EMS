@@ -4,8 +4,8 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_DB: EmployeeDB
-      POSTGRES_USER: eustache
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       PGDATA: /data/postgres
     volumes:
       - db:/data/postgres
