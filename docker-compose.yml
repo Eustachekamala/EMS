@@ -1,7 +1,7 @@
 services:
   db:
     container_name: ems
-    image: postgres:latest
+    image: postgres:17
     environment:
       POSTGRES_DB: EmployeeManagementSystemDB
       POSTGRES_USER: ${POSTGRES_USER}
