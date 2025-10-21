@@ -1,20 +1,21 @@
 package org.eustache.employemanagement.Services;
 
-import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DAOs.EmployeeRepository;
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.EmployeeMapper;
 import org.eustache.employemanagement.models.Employee;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@RequiredArgsConstructor
 public class EmployeeService {
+    @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
     private EmployeeMapper employeeMapper;
 
     public String createEmployee(EmployeeRequestDTO employeerequestDTO) {

@@ -1,19 +1,19 @@
 package org.eustache.employemanagement.Controllers;
 
-import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
 import org.eustache.employemanagement.Services.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("employees")
 public class EmployeeController {
-    private final EmployeeService employeeService;
+    @Autowired
+    private EmployeeService employeeService;
 
     @GetMapping("/all")
     public ResponseEntity<List<EmployeeSummaryDTO>> getAllEmployees() {
