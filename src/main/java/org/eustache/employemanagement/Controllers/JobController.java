@@ -3,18 +3,15 @@ package org.eustache.employemanagement.Controllers;
 import org.eustache.employemanagement.DTOs.JobDTO;
 import org.eustache.employemanagement.Services.JobService;
 import org.eustache.employemanagement.models.Job;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import lombok.RequiredArgsConstructor;
 
 @RestController
 @RequestMapping("/jobs")
+@RequiredArgsConstructor
 public class JobController {
     private final JobService jobService;
-
-    @Autowired
-    public JobController(JobService jobService) {
-        this.jobService = jobService;
-    }
 
     @GetMapping("/{title}")
     public JobDTO getJobByTitle(

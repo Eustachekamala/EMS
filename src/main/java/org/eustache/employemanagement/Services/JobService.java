@@ -3,17 +3,14 @@ package org.eustache.employemanagement.Services;
 import org.eustache.employemanagement.DAOs.JobRepository;
 import org.eustache.employemanagement.DTOs.JobDTO;
 import org.eustache.employemanagement.models.Job;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class JobService {
     private final JobRepository jobRepository;
-    @Autowired
-
-    public JobService(JobRepository jobRepository) {
-        this.jobRepository = jobRepository;
-    }
 
     public Job createJob(JobDTO job) {
         Job newJob = new Job();
