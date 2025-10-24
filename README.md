@@ -1,5 +1,5 @@
 # EMS
-A Spring Boot–based application for managing employees, attendance, and related operations.
+A Spring Boot–based application for managing employees, attendance, payroll, and related operations.
 This project demonstrates integration with RFID readers [via JSerialComm](https://fazecast.github.io/jSerialComm/) to enable automated check-in and check-out.
 
 ## 📌 Features
