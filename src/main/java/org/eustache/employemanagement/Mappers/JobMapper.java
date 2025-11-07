@@ -3,7 +3,11 @@ package org.eustache.employemanagement.Mappers;
 import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
 import org.eustache.employemanagement.models.Job;
+import org.hibernate.annotations.Comment;
+import org.springframework.stereotype.Component;
 
+@Component
+@Comment("Mapper class for converting between Job entities and Job DTOs")
 public class JobMapper {
     // Convert Job entity to JobDTO
     public Job toEntity(JobRequestDTO jobDTO) {
