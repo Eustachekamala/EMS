@@ -4,7 +4,7 @@ import org.eustache.employemanagement.DAOs.DepartmentRepository;
 import org.eustache.employemanagement.DAOs.EmployeeRepository;
 import org.eustache.employemanagement.DAOs.JobRepository;
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
-import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequest;
+import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.EmployeeMapper;
@@ -55,7 +55,7 @@ public class EmployeeService {
         return "Employee deleted successfully";
     }
 
-    public String updateEmployee(Integer id, UpdateEmployeeRequest employeerequestDTO) {
+    public String updateEmployee(Integer id, UpdateEmployeeRequestDTO employeerequestDTO) {
         // We check if the employee exists
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
@@ -66,7 +66,6 @@ public class EmployeeService {
         Optional.ofNullable(employeerequestDTO.phone()).ifPresent(existingEmployee::setPhone);
         Optional.ofNullable(employeerequestDTO.dob()).ifPresent(existingEmployee::setBirthDate);
         Optional.ofNullable(employeerequestDTO.gender()).ifPresent(existingEmployee::setGender);
-        Optional.ofNullable(employeerequestDTO.position()).ifPresent(existingEmployee::setPosition);
         Optional.ofNullable(employeerequestDTO.hireDate()).ifPresent(existingEmployee::setHireDate);
         Optional.ofNullable(employeerequestDTO.country()).ifPresent(existingEmployee::setCountry);
         Optional.ofNullable(employeerequestDTO.city()).ifPresent(existingEmployee::setCity);
@@ -84,6 +83,8 @@ public class EmployeeService {
                     .orElseThrow(() -> new NotFoundException("Job not found with id: " + employeerequestDTO.jobId()));
             existingEmployee.setJob(job);
         }
+        // We save the updated employee
+        employeeRepository.save(existingEmployee);
         return "Employee updated successfully";
     }
 

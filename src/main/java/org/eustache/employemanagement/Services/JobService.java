@@ -47,4 +47,17 @@ public class JobService {
                 job.getMaxSalary()
         );
     }
+
+    public JobDTO getAll(){
+        Job job = jobRepository.findAll()
+            .stream()
+            .findFirst()
+            .orElseThrow(() -> new RuntimeException("No jobs found"));
+        return new JobDTO(
+                job.getTitle(),
+                job.getDescription(),
+                job.getMinSalary(),
+                job.getMaxSalary()
+        );
+    }
 }

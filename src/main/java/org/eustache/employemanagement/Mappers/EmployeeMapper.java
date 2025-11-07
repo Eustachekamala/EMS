@@ -15,7 +15,7 @@ public class EmployeeMapper {
         employee.setEmail(employeeRequestDTO.email());
         employee.setPhone(employeeRequestDTO.phone());
         employee.setBirthDate(employeeRequestDTO.dob());
-        employee.setPosition(employeeRequestDTO.position());
+
         employee.setHireDate(employeeRequestDTO.hireDate());
         employee.setGender(employeeRequestDTO.gender());
         employee.setCity(employeeRequestDTO.city());
@@ -32,7 +32,6 @@ public class EmployeeMapper {
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getEmail(),
-                employee.getPosition(),
                 employee.getRfidTag()
         );
     }

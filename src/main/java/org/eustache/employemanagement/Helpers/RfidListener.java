@@ -56,7 +56,6 @@ public class RfidListener {
                                 "John",
                                 "Doe",
                                 "john.doe@example.com",
-                                "Software Engineer",
                                 rfidTag
                         );
 

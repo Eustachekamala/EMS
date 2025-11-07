@@ -5,7 +5,6 @@ public record EmployeeSummaryDTO(
          String firstname,
          String lastname,
          String email,
-         String position,
          String rfidTag
 ) {
 }

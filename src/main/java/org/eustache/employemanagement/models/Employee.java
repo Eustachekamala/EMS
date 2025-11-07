@@ -23,7 +23,6 @@ public class Employee {
     private LocalDate hireDate;
     private LocalDate birthDate;
     private String gender;
-    private String position;
     private String street;
     private String city;
     private String country;

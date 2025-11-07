@@ -1,7 +1,7 @@
 package org.eustache.employemanagement.Controllers;
 
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
-import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequest;
+import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
 import org.eustache.employemanagement.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class EmployeeController {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<String> updateEmployee(@PathVariable Integer id, @RequestBody UpdateEmployeeRequest employee) {
+    public ResponseEntity<String> updateEmployee(@PathVariable Integer id, @RequestBody UpdateEmployeeRequestDTO employee) {
         return ResponseEntity.ok(employeeService.updateEmployee(id, employee));
     }
 
