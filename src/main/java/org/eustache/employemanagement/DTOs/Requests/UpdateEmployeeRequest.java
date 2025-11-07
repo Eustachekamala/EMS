@@ -2,7 +2,7 @@ package org.eustache.employemanagement.DTOs.Requests;
 
 import java.time.LocalDate;
 
-public record EmployeeRequestDTO(
+public record UpdateEmployeeRequest(
          String firstName,
          String lastName,
          String email,
@@ -11,9 +11,12 @@ public record EmployeeRequestDTO(
          String gender,
          String position,
          LocalDate hireDate,
-         String country,
+         String street,
          String city,
+         String country,
          String zipcode,
-         String street
+         Integer departmentId,
+         Integer jobId
 ) {
+
 }

@@ -3,7 +3,6 @@ package org.eustache.employemanagement.models;
 import jakarta.persistence.*;
 import lombok.Data;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -16,33 +15,34 @@ public class Employee {
     private Integer employeeId;
     private String firstname;
     private String lastname;
+    @Column(unique = true)
     private String email;
     private String password;
+    @Column(unique = true)
     private String phone;
     private LocalDate hireDate;
     private LocalDate birthDate;
     private String gender;
     private String position;
-    private BigDecimal salary;
+    private String street;
+    private String city;
+    private String country;
+    private String zipcode;
 
     @Column(unique = true)
     private String rfidTag;
 
     //Relationships
     @ManyToOne
-    @JoinColumn(name = "department_id") // FK of department
+    @JoinColumn(name = "department_id", nullable = true) // FK of department
     private Department department;
 
     @ManyToOne
-    @JoinColumn(name = "job_id") // FK of Job
+    @JoinColumn(name = "job_id", nullable = true) // FK of Job
     private Job job;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Attendance> attendances;
-
-    @OneToOne
-    @JoinColumn(name = "address_id") // FK of address
-    private Address address;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Payroll> payrolls;

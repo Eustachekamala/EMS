@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AttendanceMapper {
+
+    // Convert AttendanceRequestDTO to Attendance entity
     public Attendance toEntity(AttendanceRequestDTO attendanceRequestDTO){
         if(attendanceRequestDTO == null) return null;
         Attendance attendance = new Attendance();
@@ -22,6 +24,7 @@ public class AttendanceMapper {
         return attendance;
     }
 
+    // Convert Attendance entity to AttendanceResponseDTO
     public AttendanceResponseDTO toDTO(Attendance attendance){
         if(attendance == null) return null;
         return new AttendanceResponseDTO(

@@ -1,6 +1,5 @@
 package org.eustache.employemanagement.DTOs.Responses;
 
-import org.eustache.employemanagement.DTOs.AddressDTO;
 import org.eustache.employemanagement.DTOs.DepartmentDTO;
 import org.eustache.employemanagement.DTOs.JobDTO;
 
@@ -15,7 +14,6 @@ public record EmployeeResponseDTO(
          LocalDate hireDate,
          String gender,
          DepartmentDTO department,
-         JobDTO job,
-         AddressDTO address
+         JobDTO job
 ) {
 }
