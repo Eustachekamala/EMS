@@ -1,7 +1,7 @@
 package org.eustache.employemanagement.DTOs.Responses;
 
 import org.eustache.employemanagement.DTOs.DepartmentDTO;
-import org.eustache.employemanagement.DTOs.JobDTO;
+import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 
 import java.time.LocalDate;
 
@@ -14,6 +14,6 @@ public record EmployeeResponseDTO(
          LocalDate hireDate,
          String gender,
          DepartmentDTO department,
-         JobDTO job
+         JobRequestDTO job
 ) {
 }

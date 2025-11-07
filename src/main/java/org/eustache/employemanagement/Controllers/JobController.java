@@ -2,9 +2,9 @@ package org.eustache.employemanagement.Controllers;
 
 import java.util.List;
 
-import org.eustache.employemanagement.DTOs.JobDTO;
+import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
+import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
 import org.eustache.employemanagement.Services.JobService;
-import org.eustache.employemanagement.models.Job;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,28 +17,35 @@ public class JobController {
     private final JobService jobService;
 
     @GetMapping("/{title}")
-    public ResponseEntity<JobDTO> getJobByTitle(
+    public ResponseEntity<JobResponseDTO> getJobByTitle(
             @PathVariable String title
     ) {
         return ResponseEntity.ok(jobService.getByTitle(title));
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<JobResponseDTO> getJobById(
+            @PathVariable Integer id
+    ) {
+        return ResponseEntity.ok(jobService.getById(id));
+    }
+
     @GetMapping("/all")
-    public ResponseEntity<List<JobDTO>> getAllJobs() {
-        return ResponseEntity.ok(List.of(jobService.getAll()));
+    public ResponseEntity<List<JobResponseDTO>> getAllJobs() {
+        return ResponseEntity.ok(jobService.getAll());
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Job> createJob(
-            @RequestBody JobDTO job
+    public ResponseEntity<String> createJob(
+            @RequestBody JobRequestDTO job
     ) {
         return ResponseEntity.ok(jobService.createJob(job));
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Job> updateJob(
+    public ResponseEntity<String> updateJob(
             @PathVariable Integer id,
-        @RequestBody JobDTO job)
+        @RequestBody JobRequestDTO job)
     {
         return ResponseEntity.ok(jobService.updateJob(id, job));
     }
@@ -47,7 +54,6 @@ public class JobController {
     public ResponseEntity<String> deleteJob(
             @PathVariable Integer id
     ) {
-        jobService.deleteJob(id);
-        return ResponseEntity.ok("Job deleted successfully");
+        return ResponseEntity.ok(jobService.deleteJob(id));
     }
 }
