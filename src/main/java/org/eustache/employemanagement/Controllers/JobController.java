@@ -5,16 +5,21 @@ import java.util.List;
 import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
 import org.eustache.employemanagement.Services.JobService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import lombok.RequiredArgsConstructor;
+import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/jobs")
-@RequiredArgsConstructor
+@Tag(
+    name = "Job Management",
+    description = "APIs for managing job positions within the Employee Management System, including creation, retrieval, updating, and deletion of job records."
+)
 public class JobController {
-    private final JobService jobService;
+    @Autowired
+    private JobService jobService;
 
     @GetMapping("/{title}")
     public ResponseEntity<JobResponseDTO> getJobByTitle(
@@ -23,7 +28,7 @@ public class JobController {
         return ResponseEntity.ok(jobService.getByTitle(title));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("get/{id}")
     public ResponseEntity<JobResponseDTO> getJobById(
             @PathVariable Integer id
     ) {

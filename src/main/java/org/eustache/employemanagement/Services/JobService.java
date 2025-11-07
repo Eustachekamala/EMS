@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import org.eustache.employemanagement.DAOs.JobRepository;
 import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
+import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.JobMapper;
 import org.eustache.employemanagement.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +30,7 @@ public class JobService {
     // Update an existing Job
     public String updateJob(Integer id, JobRequestDTO job) {
         Job existingJob = jobRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Job not found with id: " + id));
         Optional.ofNullable(job.title()).ifPresent(existingJob::setTitle);
         Optional.ofNullable(job.description()).ifPresent(existingJob::setDescription);
         Optional.ofNullable(job.salary()).ifPresent(existingJob::setSalary);
@@ -47,7 +48,7 @@ public class JobService {
     public JobResponseDTO getByTitle(String title) {
         Job job = jobRepository.findByTitle(title);
         if (job == null) {
-            throw new RuntimeException("Job not found with title: " + title);
+            throw new NotFoundException("Job not found with title: " + title);
         }
         return jobMapper.toDTO(job);
     }
@@ -55,7 +56,7 @@ public class JobService {
     // Get a Job by ID
     public JobResponseDTO getById(Integer id) {
         Job job = jobRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Job not found with id: " + id));
         return jobMapper.toDTO(job);
     }
 
@@ -63,7 +64,7 @@ public class JobService {
     public List<JobResponseDTO> getAll(){
         List<Job> jobs = jobRepository.findAll();
         if (jobs.isEmpty()) {
-            throw new RuntimeException("No jobs found");
+            throw new NotFoundException("No jobs found");
         }
         return jobs.stream()
                 .map(jobMapper::toDTO)

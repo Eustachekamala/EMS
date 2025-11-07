@@ -8,10 +8,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import io.swagger.v3.oas.annotations.tags.Tag;
+
 import java.util.List;
 
 @RestController
 @RequestMapping("employees")
+@Tag(
+    name = "Employee Management",
+    description = "APIs for managing employees within the Employee Management System, including creation, retrieval, updating, and deletion of employee records."
+)
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
