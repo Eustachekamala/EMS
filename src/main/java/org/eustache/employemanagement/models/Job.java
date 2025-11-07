@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,7 +26,12 @@ public class Job {
     private String description;
     private BigDecimal salary;
 
-    //Relationships
+    // One job can be assigned to many employees
     @OneToMany(mappedBy = "job")
     private List<Employee> employees;
+
+    // Many jobs can belong to one department
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private Department department;
 }

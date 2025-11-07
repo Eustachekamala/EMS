@@ -24,6 +24,7 @@ public class JobMapper {
         if (job == null) return null;
         return new JobResponseDTO(
                 job.getJobId(),
+                job.getDepartment().getName().name(),
                 job.getTitle(),
                 job.getDescription()
         );

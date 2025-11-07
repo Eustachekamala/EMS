@@ -16,7 +16,11 @@ public class Department {
     @Column(length = 20, nullable = false, unique = true)
     private DepartmentType name;
 
-    //Relationships
+    // One department can have many jobs
+    @OneToMany(mappedBy = "department")
+    private List<Job> jobs = new ArrayList<>();
+
+    // One department can have many employees
     @OneToMany(mappedBy = "department")
     private List<Employee> employees = new ArrayList<>();
 }

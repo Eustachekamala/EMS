@@ -4,11 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.eustache.employemanagement.DAOs.DepartmentRepository;
 import org.eustache.employemanagement.DAOs.JobRepository;
 import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.JobMapper;
+import org.eustache.employemanagement.models.Department;
+import org.eustache.employemanagement.models.DepartmentType;
 import org.eustache.employemanagement.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,13 +22,35 @@ public class JobService {
     private JobRepository jobRepository;
     @Autowired
     private JobMapper jobMapper;
+    @Autowired
+    private DepartmentRepository departmentRepository;
 
     // Create a new Job
     public String createJob(JobRequestDTO job) {
+        DepartmentType departmentType;
+
+        // Validate and fetch or create Department
+        try {
+            departmentType = DepartmentType.valueOf(job.departmentName().name().toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new NotFoundException("Invalid department name: " + job.departmentName());
+        }
+
+        // Fetch existing department or create a new one
+        Department department = departmentRepository.findByName(departmentType)
+                .orElseGet(() -> {
+                    Department newDept = new Department();
+                    newDept.setName(departmentType);
+                    return departmentRepository.save(newDept);
+                });
+
         Job newJob = jobMapper.toEntity(job);
-        jobRepository.save(newJob);     
+        newJob.setDepartment(department);
+        jobRepository.save(newJob);
+
         return "Job created successfully";
     }
+
 
     // Update an existing Job
     public String updateJob(Integer id, JobRequestDTO job) {

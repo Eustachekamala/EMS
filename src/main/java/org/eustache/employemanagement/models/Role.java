@@ -18,7 +18,7 @@ public class Role {
     @Column(length = 20, nullable = false, unique = true)
     private RoleType name;
 
-    //Relationships
+    // The users that have this role
     @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
