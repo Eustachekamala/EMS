@@ -83,7 +83,6 @@ public class EmployeeService {
                     .orElseThrow(() -> new NotFoundException("Job not found with id: " + employeerequestDTO.jobId()));
             existingEmployee.setJob(job);
         }
-        // We save the updated employee
         employeeRepository.save(existingEmployee);
         return "Employee updated successfully";
     }

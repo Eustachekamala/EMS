@@ -27,6 +27,7 @@ public class AttendanceController {
                 "John",
                 "Doe",
                 "john.doe@example.com",
+                "Software Engineer",
                 "RFID12345"
         );
 
@@ -46,6 +47,7 @@ public class AttendanceController {
                 "Jane",
                 "Smith",
                 "jane.smith@example.com",
+                "Product Manager",
                 rfidTag
         );
 

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EmployeeMapper {
+
     public Employee toEntity(EmployeeRequestDTO employeeRequestDTO) {
         if (employeeRequestDTO == null) return null;
         Employee employee = new Employee();
@@ -26,12 +27,12 @@ public class EmployeeMapper {
     }
 
     public EmployeeSummaryDTO toEmployeeSummaryDTO(Employee employee) {
-        if (employee == null) return null;
         return new EmployeeSummaryDTO(
                 employee.getEmployeeId(),
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getEmail(),
+                employee.getJob() != null ? employee.getJob().getTitle() : "No Job Assigned",
                 employee.getRfidTag()
         );
     }

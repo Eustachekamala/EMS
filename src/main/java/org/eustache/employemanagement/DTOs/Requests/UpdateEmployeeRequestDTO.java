@@ -9,7 +9,6 @@ public record UpdateEmployeeRequestDTO(
          String phone,
          LocalDate dob,
          String gender,
-         String position,
          LocalDate hireDate,
          String country,
          String city,

@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 public record JobDTO(
         String title,
         String description,
-        BigDecimal minSalary,
-        BigDecimal maxSalary
+        BigDecimal salary
 ) {
 }

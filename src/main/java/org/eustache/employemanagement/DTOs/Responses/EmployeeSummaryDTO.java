@@ -5,6 +5,10 @@ public record EmployeeSummaryDTO(
          String firstname,
          String lastname,
          String email,
+         String jobTitle,
          String rfidTag
 ) {
+    public String getJobTitle(){
+        return jobTitle;
+    }
 }

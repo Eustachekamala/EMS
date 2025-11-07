@@ -16,8 +16,7 @@ public class JobService {
         Job newJob = new Job();
         newJob.setTitle(job.title());
         newJob.setDescription(job.description());
-        newJob.setMinSalary(job.minSalary());
-        newJob.setMaxSalary(job.maxSalary());
+        newJob.setSalary(job.salary());
         return jobRepository.save(newJob);
     }
 
@@ -26,8 +25,7 @@ public class JobService {
                 .orElseThrow(() -> new RuntimeException("Job not found with id: " + id));
         existingJob.setTitle(job.title());
         existingJob.setDescription(job.description());
-        existingJob.setMinSalary(job.minSalary());
-        existingJob.setMaxSalary(job.maxSalary());
+        existingJob.setSalary(job.salary());
         return jobRepository.save(existingJob);
     }
 
@@ -43,8 +41,7 @@ public class JobService {
         return new JobDTO(
                 job.getTitle(),
                 job.getDescription(),
-                job.getMinSalary(),
-                job.getMaxSalary()
+                job.getSalary()
         );
     }
 
@@ -56,8 +53,7 @@ public class JobService {
         return new JobDTO(
                 job.getTitle(),
                 job.getDescription(),
-                job.getMinSalary(),
-                job.getMaxSalary()
+                job.getSalary()
         );
     }
 }
