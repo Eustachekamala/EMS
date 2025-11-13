@@ -38,7 +38,7 @@ This project demonstrates integration with RFID readers [via JSerialComm](https:
   
 ## 🛠️ Tech Stack
 
-* Backend: Spring Boot (3.5.5), Spring Data JPA, Hibernate
+* Backend: Spring Boot, Spring Data JPA, Hibernate
 * Database: PostgreSQL
 * Build Tool: Maven
 * Java Version: OpenJDK 21+
