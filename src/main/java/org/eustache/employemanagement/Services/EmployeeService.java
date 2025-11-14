@@ -93,6 +93,7 @@ public class EmployeeService {
         return "Employee found: " + employee.getFirstname() + " " + employee.getLastname();
     }
 
+    // This method allow the admin to search employees by the name
     public EmployeeSummaryDTO getEmployeeByFirstname(String firstname) {
         Employee employee = employeeRepository.findByFirstname(firstname)
                 .orElseThrow(() -> new NotFoundException("Employee not found with firstname: " + firstname));
