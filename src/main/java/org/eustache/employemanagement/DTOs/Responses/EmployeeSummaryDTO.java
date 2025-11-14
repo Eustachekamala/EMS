@@ -8,7 +8,5 @@ public record EmployeeSummaryDTO(
          String jobTitle,
          String rfidTag
 ) {
-    public String getJobTitle(){
-        return jobTitle;
-    }
+    
 }

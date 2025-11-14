@@ -9,6 +9,6 @@ public record AttendanceResponseDTO(
         LocalTime checkInTime,
         LocalTime checkOutTime,
         String attendanceStatus,
-        EmployeeSummaryDTO employee
+        EmployeeResponseDTO employee
 ) {
 }

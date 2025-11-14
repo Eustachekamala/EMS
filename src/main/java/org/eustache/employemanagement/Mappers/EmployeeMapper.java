@@ -1,7 +1,7 @@
 package org.eustache.employemanagement.Mappers;
 
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.models.Employee;
 import org.springframework.stereotype.Component;
 
@@ -26,13 +26,18 @@ public class EmployeeMapper {
         return employee;
     }
 
-    public EmployeeSummaryDTO toEmployeeSummaryDTO(Employee employee) {
-        return new EmployeeSummaryDTO(
+    public EmployeeResponseDTO toResponseDTO(Employee employee) {
+        if(employee == null) return null;
+        return new EmployeeResponseDTO(
                 employee.getEmployeeId(),
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getEmail(),
-                employee.getJob() != null ? employee.getJob().getTitle() : "No Job Assigned",
+                employee.getPhone(),
+                employee.getHireDate(),
+                employee.getGender(),
+                employee.getDepartment() != null ? employee.getDepartment().getName().toString() : null,
+                employee.getJob() != null ? employee.getJob().getTitle() : null,
                 employee.getRfidTag()
         );
     }

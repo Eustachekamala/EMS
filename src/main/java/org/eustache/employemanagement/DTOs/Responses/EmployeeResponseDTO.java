@@ -1,7 +1,5 @@
 package org.eustache.employemanagement.DTOs.Responses;
 
-import org.eustache.employemanagement.DTOs.DepartmentDTO;
-import org.eustache.employemanagement.DTOs.Requests.JobRequestDTO;
 
 import java.time.LocalDate;
 
@@ -13,7 +11,15 @@ public record EmployeeResponseDTO(
          String phone,
          LocalDate hireDate,
          String gender,
-         DepartmentDTO department,
-         JobRequestDTO job
+         String departmentName,
+         String jobTitle,
+         String rfidTag
 ) {
+    public String getJobTitle(){
+        return jobTitle;
+    }
+
+    public String getDepartmentName(){
+        return departmentName;
+    }
 }

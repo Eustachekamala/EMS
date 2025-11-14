@@ -3,7 +3,7 @@ package org.eustache.employemanagement.Services; // lowercase
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,7 +22,7 @@ public class AttendanceService {
     private final List<AttendanceResponseDTO> history = new ArrayList<>();
     private int idCounter = 1;
 
-    public synchronized AttendanceResponseDTO recordAttendance(EmployeeSummaryDTO employee) {
+    public synchronized AttendanceResponseDTO recordAttendance(EmployeeResponseDTO employee) {
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
         String rfidTag = employee.rfidTag();

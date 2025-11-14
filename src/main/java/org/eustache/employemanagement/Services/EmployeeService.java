@@ -5,7 +5,7 @@ import org.eustache.employemanagement.DAOs.EmployeeRepository;
 import org.eustache.employemanagement.DAOs.JobRepository;
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequestDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.EmployeeMapper;
 import org.eustache.employemanagement.models.Department;
@@ -34,17 +34,17 @@ public class EmployeeService {
             return "Employee created successfully";
     }
 
-    public List<EmployeeSummaryDTO> getAllEmployees() {
+    public List<EmployeeResponseDTO> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
-                .map(employeeMapper::toEmployeeSummaryDTO)
+                .map(employeeMapper::toResponseDTO)
                 .toList();
     }
 
-    public EmployeeSummaryDTO getEmployeeById(Integer id) {
+    public EmployeeResponseDTO getEmployeeById(Integer id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
-        return employeeMapper.toEmployeeSummaryDTO(employee);
+        return employeeMapper.toResponseDTO(employee);
     }
 
     public String deleteEmployee(Integer id) {
@@ -94,15 +94,15 @@ public class EmployeeService {
     }
 
     // This method allow the admin to search employees by the name
-    public EmployeeSummaryDTO getEmployeeByFirstname(String firstname) {
+    public EmployeeResponseDTO getEmployeeByFirstname(String firstname) {
         Employee employee = employeeRepository.findByFirstname(firstname)
                 .orElseThrow(() -> new NotFoundException("Employee not found with firstname: " + firstname));
-        return employeeMapper.toEmployeeSummaryDTO(employee);
+        return employeeMapper.toResponseDTO(employee);
     }
 
-    public EmployeeSummaryDTO getEmployeeByLastname(String lastname) {
+    public EmployeeResponseDTO getEmployeeByLastname(String lastname) {
         Employee employee = employeeRepository.findByLastname(lastname)
                 .orElseThrow(() -> new NotFoundException("Employee not found with lastname: " + lastname));
-        return employeeMapper.toEmployeeSummaryDTO(employee);
+        return employeeMapper.toResponseDTO(employee);
     }
 }

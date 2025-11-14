@@ -2,7 +2,7 @@ package org.eustache.employemanagement.Controllers;
 
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequestDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,12 +23,12 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @GetMapping("/all")
-    public ResponseEntity<List<EmployeeSummaryDTO>> getAllEmployees() {
+    public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees() {
         return ResponseEntity.ok(employeeService.getAllEmployees());
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<EmployeeSummaryDTO> getEmployeeById(@PathVariable Integer id) {
+    public ResponseEntity<EmployeeResponseDTO> getEmployeeById(@PathVariable Integer id) {
         return ResponseEntity.ok(employeeService.getEmployeeById(id));
     }
 
@@ -53,12 +53,12 @@ public class EmployeeController {
     }
 
     @GetMapping("/search/{firstname}")
-    public ResponseEntity<EmployeeSummaryDTO> getEmployeeByFirstname(@PathVariable String firstname) {
+    public ResponseEntity<EmployeeResponseDTO> getEmployeeByFirstname(@PathVariable String firstname) {
         return ResponseEntity.ok(employeeService.getEmployeeByFirstname(firstname));
     }
 
     @GetMapping("/search/lastname/{lastname}")
-    public ResponseEntity<EmployeeSummaryDTO> getEmployeeByLastname(@PathVariable String lastname) {
+    public ResponseEntity<EmployeeResponseDTO> getEmployeeByLastname(@PathVariable String lastname) {
         return ResponseEntity.ok(employeeService.getEmployeeByLastname(lastname));
     }
 }

@@ -4,11 +4,12 @@ import com.fazecast.jSerialComm.SerialPort;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.Services.AttendanceService;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
@@ -51,14 +52,18 @@ public class RfidListener {
                         buffer.setLength(0);
 
                         // ⚠️ For now, simulate employee lookup
-                        EmployeeSummaryDTO employee = new EmployeeSummaryDTO(
-                                1,
-                                "John",
-                                "Doe",
-                                "john.doe@example.com",
-                                "UX Designer",
-                                rfidTag
-                        );
+                        EmployeeResponseDTO employee = new EmployeeResponseDTO(
+                            1,
+                            "Jane",
+                            "Smith",
+                            "jane.smith@example.com",
+                            "5555555555",
+                            LocalDate.now(),
+                            "Female",
+                            "Product Management",
+                            "Product Manager",
+                            rfidTag
+                    );
 
                         AttendanceResponseDTO result = attendanceService.recordAttendance(employee);
                         System.out.println("RFID SCAN -> " + result);

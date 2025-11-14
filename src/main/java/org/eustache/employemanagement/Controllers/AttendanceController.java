@@ -1,8 +1,10 @@
 package org.eustache.employemanagement.Controllers;
 
+import java.time.LocalDate;
+
 import org.eustache.employemanagement.DTOs.Requests.AttendanceRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
-import org.eustache.employemanagement.DTOs.Responses.EmployeeSummaryDTO;
+import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.Services.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,11 +30,15 @@ public class AttendanceController {
     public ResponseEntity<AttendanceResponseDTO> markAttendance(@RequestBody AttendanceRequestDTO request) {
         // ⚠️ Fetch employee from DB here using employeeId
         // Now, simulate employee data
-        EmployeeSummaryDTO employee = new EmployeeSummaryDTO(
+        EmployeeResponseDTO employee = new EmployeeResponseDTO(
                 request.employeeId(),
                 "John",
                 "Doe",
                 "john.doe@example.com",
+                "1234567890",
+                LocalDate.now(),
+                "Male",
+                "Engineering",
                 "Software Engineer",
                 "RFID12345"
         );
@@ -48,11 +54,15 @@ public class AttendanceController {
     @PostMapping("/simulate/{rfidTag}")
     public ResponseEntity<AttendanceResponseDTO> simulateScan(@PathVariable String rfidTag) {
         // ⚠️ In real use: lookup employee by RFID in EmployeeRepository
-        EmployeeSummaryDTO employee = new EmployeeSummaryDTO(
+        EmployeeResponseDTO employee = new EmployeeResponseDTO(
                 1,
                 "Jane",
                 "Smith",
                 "jane.smith@example.com",
+                "5555555555",
+                LocalDate.now(),
+                "Female",
+                "Product Management",
                 "Product Manager",
                 rfidTag
         );

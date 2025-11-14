@@ -33,7 +33,7 @@ public class AttendanceMapper {
                 attendance.getCheckInTime(),
                 attendance.getCheckOutTime(),
                 attendance.getAttendanceStatus(),
-                attendance.getEmployee() != null ? new EmployeeMapper().toEmployeeSummaryDTO(attendance.getEmployee()) : null
+                attendance.getEmployee() != null ? new EmployeeMapper().toResponseDTO(attendance.getEmployee()) : null
         );
     }
 }
