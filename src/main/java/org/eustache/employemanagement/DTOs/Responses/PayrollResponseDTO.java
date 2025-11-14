@@ -5,7 +5,7 @@ import java.time.LocalDate;
 
 public record PayrollResponseDTO(
       Integer id,
-      EmployeeSummaryDTO employee,
+      EmployeeResponseDTO employee,
       BigDecimal salary,
       LocalDate paymentDate
 ) {
