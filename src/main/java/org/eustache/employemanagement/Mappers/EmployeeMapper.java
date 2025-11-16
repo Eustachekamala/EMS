@@ -29,7 +29,7 @@ public class EmployeeMapper {
     public EmployeeResponseDTO toResponseDTO(Employee employee) {
         if(employee == null) return null;
         return new EmployeeResponseDTO(
-                employee.getEmployeeId(),
+                employee.getId(),
                 employee.getFirstname(),
                 employee.getLastname(),
                 employee.getEmail(),

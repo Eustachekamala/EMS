@@ -19,7 +19,7 @@ public class AttendanceMapper {
         attendance.setCheckInTime(attendanceRequestDTO.checkInTime());
         if (attendanceRequestDTO.employeeId() != null) {
             Employee employee = new Employee();
-            employee.setEmployeeId(attendanceRequestDTO.employeeId());
+            employee.setId((attendanceRequestDTO.employeeId()));
         }
         return attendance;
     }

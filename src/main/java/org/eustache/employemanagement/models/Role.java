@@ -14,7 +14,7 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer roleId;
-    @Enumerated(EnumType.STRING) // store enum name
+    @Enumerated(EnumType.STRING)
     @Column(length = 20, nullable = false, unique = true)
     private RoleType name;
 
