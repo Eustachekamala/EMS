@@ -6,15 +6,18 @@ import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
 import org.eustache.employemanagement.Services.AttendanceService;
+import org.eustache.employemanagement.DAOs.EmployeeRepository;
+import org.eustache.employemanagement.Mappers.EmployeeMapper;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
 
 @Component
 @RequiredArgsConstructor
 public class RfidListener {
     private final AttendanceService attendanceService;
+    private final EmployeeRepository employeeRepository;
+    private final EmployeeMapper employeeMapper;
 
     @PostConstruct
     public void init() {
@@ -51,22 +54,25 @@ public class RfidListener {
                         String rfidTag = buffer.toString().trim();
                         buffer.setLength(0);
 
-                        // ⚠️ For now, simulate employee lookup
-                        EmployeeResponseDTO employee = new EmployeeResponseDTO(
-                            1,
-                            "Jane",
-                            "Smith",
-                            "jane.smith@example.com",
-                            "5555555555",
-                            LocalDate.now(),
-                            "Female",
-                            "Product Management",
-                            "Product Manager",
-                            rfidTag
-                    );
+                        // Lookup employee by RFID from DB
+                        try {
+                            if (rfidTag == null || rfidTag.isBlank()) {
+                                System.out.println("⚠️ Received empty RFID tag, skipping.");
+                                continue;
+                            }
 
-                        AttendanceResponseDTO result = attendanceService.recordAttendance(employee);
-                        System.out.println("RFID SCAN -> " + result);
+                            employeeRepository.findByRfidTag(rfidTag.trim())
+                                .ifPresentOrElse(emp -> {
+                                    EmployeeResponseDTO dto = employeeMapper.toResponseDTO(emp);
+                                    AttendanceResponseDTO result = attendanceService.recordAttendance(dto);
+                                    System.out.println("RFID SCAN -> " + result);
+                                }, () -> {
+                                    System.out.println("⚠️ No employee found for RFID: " + rfidTag);
+                                });
+                        } catch (Exception ex) {
+                            System.err.println("Error processing RFID '" + rfidTag + "': " + ex.getMessage());
+                            ex.printStackTrace();
+                        }
                     }
 
                 } catch (Exception e) {
