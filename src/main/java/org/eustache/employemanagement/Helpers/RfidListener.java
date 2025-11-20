@@ -23,6 +23,7 @@ public class RfidListener {
     public void init() {
         SerialPort[] ports = SerialPort.getCommPorts();
 
+        //This Condition statement check if there's a RFID connected
         if (ports.length == 0) {
             System.err.println("⚠️ No serial ports detected. RFID listener will not start.");
             return; // safely exit without throwing
