@@ -38,7 +38,7 @@ This project demonstrates integration with RFID readers [via JSerialComm](https:
   
 ## 🛠️ Tech Stack
 
-* Backend: Spring Boot, Spring Data JPA, Hibernate
+* Backend: Spring Boot, Spring Data JPA, Hibernate, Redis for caching
 * Database: PostgreSQL
 * Build Tool: Maven
 * Java Version: OpenJDK 21+
@@ -53,6 +53,8 @@ This project demonstrates integration with RFID readers [via JSerialComm](https:
 * Advanced Payroll Reports
 * Dockerization for easy deployment
 * CI/CD pipeline integration
+* AWS integration for cloud deployment
+* S3 integration for file storage
 
 ## 👨‍💻 Author
 
