@@ -3,11 +3,15 @@ package org.eustache.employemanagement.Mappers;
 import org.eustache.employemanagement.DTOs.Requests.AttendanceRequestDTO;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.models.Attendance;
-import org.eustache.employemanagement.models.Employee;
 import org.springframework.stereotype.Component;
 
+import lombok.RequiredArgsConstructor;
+
 @Component
+@RequiredArgsConstructor
 public class AttendanceMapper {
+
+    private final EmployeeMapper employeeMapper;
 
     // Convert AttendanceRequestDTO to Attendance entity
     public Attendance toEntity(AttendanceRequestDTO attendanceRequestDTO){
@@ -17,10 +21,6 @@ public class AttendanceMapper {
         attendance.setAttendanceStatus(attendanceRequestDTO.attendanceStatus());
         attendance.setCheckOutTime(attendanceRequestDTO.checkOutTime());
         attendance.setCheckInTime(attendanceRequestDTO.checkInTime());
-        if (attendanceRequestDTO.employeeId() != null) {
-            Employee employee = new Employee();
-            employee.setId((attendanceRequestDTO.employeeId()));
-        }
         return attendance;
     }
 
@@ -33,7 +33,7 @@ public class AttendanceMapper {
                 attendance.getCheckInTime(),
                 attendance.getCheckOutTime(),
                 attendance.getAttendanceStatus(),
-                attendance.getEmployee() != null ? new EmployeeMapper().toResponseDTO(attendance.getEmployee()) : null
+                attendance.getEmployee() != null ? employeeMapper.toResponseDTO(attendance.getEmployee()) : null
         );
     }
 }

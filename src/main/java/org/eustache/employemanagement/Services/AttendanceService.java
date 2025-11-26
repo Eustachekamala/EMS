@@ -4,14 +4,20 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
+import org.eustache.employemanagement.DAOs.AttendanceRepository;
+import org.eustache.employemanagement.DAOs.EmployeeRepository;
+import org.eustache.employemanagement.DAOs.PayRollRepository;
+import org.eustache.employemanagement.Mappers.AttendanceMapper;
+import org.eustache.employemanagement.models.Attendance;
+import org.eustache.employemanagement.models.Employee;
+import org.eustache.employemanagement.models.Payroll;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Records an attendance event for a given employee. This method toggles between
@@ -55,43 +61,101 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class AttendanceService {
 
-    private final Map<String, AttendanceResponseDTO> activeAttendances = new HashMap<>();
+    private final AttendanceRepository attendanceRepository;
+    private final EmployeeRepository employeeRepository;
+    private final PayRollRepository payRollRepository;
+    private final AttendanceMapper attendanceMapper;
 
     @Getter
-    private final List<AttendanceResponseDTO> history = new ArrayList<>();
-    private int idCounter = 1;
+    private final List<AttendanceResponseDTO> history = List.of();
 
-    // This method helps to 
-    public synchronized AttendanceResponseDTO recordAttendance(EmployeeResponseDTO employee) {
+    /**
+     * Record an attendance event for the given employee DTO.
+     * If no attendance exists for today, this creates a check-in.
+     * If a check-in exists without a check-out, this performs check-out and persists the entry.
+     */
+    public synchronized AttendanceResponseDTO recordAttendance(EmployeeResponseDTO employeeDto) {
+        if (employeeDto == null || employeeDto.rfidTag() == null) return null;
+
+        String rfid = employeeDto.rfidTag().trim();
+        Employee employee = employeeRepository.findByRfidTag(rfid).orElse(null);
+        if (employee == null) {
+            System.out.println("⚠️ No employee found for RFID: " + rfid);
+            return null;
+        }
+
         LocalDate today = LocalDate.now();
         LocalTime now = LocalTime.now();
-        String rfidTag = employee.rfidTag();
 
-        if (!activeAttendances.containsKey(rfidTag)) {
-            // Check-in
-            AttendanceResponseDTO record = new AttendanceResponseDTO(
-                    idCounter++,
-                    today,
-                    now,
-                    null,
-                    "CHECKED_IN",
-                    employee
-            );
-            activeAttendances.put(rfidTag, record);
-            return record;
-        } else {
-            // Check-out
-            AttendanceResponseDTO checkInRecord = activeAttendances.remove(rfidTag);
-            AttendanceResponseDTO record = new AttendanceResponseDTO(
-                    checkInRecord.id(),
-                    today,
-                    checkInRecord.checkInTime(),
-                    now,
-                    "CHECKED_OUT",
-                    checkInRecord.employee()
-            );
-            history.add(record);
-            return record;
+        Attendance existing = attendanceRepository.findByEmployeeAndAttendanceDate(employee, today).orElse(null);
+        if (existing == null) {
+            // create check-in
+            Attendance attendance = new Attendance();
+            attendance.setEmployee(employee);
+            attendance.setCheckInTime(now);
+            attendance.setAttendanceStatus("CHECKED_IN");
+            Attendance saved = attendanceRepository.save(attendance);
+            return attendanceMapper.toDTO(saved);
         }
+
+        // If check-out not yet recorded -> check-out
+        if (existing.getCheckOutTime() == null) {
+            existing.setCheckOutTime(now);
+            existing.setAttendanceStatus("CHECKED_OUT");
+            Attendance saved = attendanceRepository.save(existing);
+
+            // compute duration and log it
+            try {
+                LocalTime in = saved.getCheckInTime();
+                LocalTime out = saved.getCheckOutTime();
+                if (in != null && out != null) {
+                    Duration d = Duration.between(in, out);
+                    long minutes = d.toMinutes();
+                    System.out.println("Attendance for employee " + employee.getId() + " duration: " + minutes + " minutes.");
+                }
+            } catch (Exception ignored) {}
+
+            return attendanceMapper.toDTO(saved);
+        }
+
+        // already checked out today -> create a new check-in (start a new attendance entry)
+        Attendance attendance = new Attendance();
+        attendance.setEmployee(employee);
+        attendance.setCheckInTime(now);
+        attendance.setAttendanceStatus("CHECKED_IN");
+        Attendance saved = attendanceRepository.save(attendance);
+        return attendanceMapper.toDTO(saved);
+    }
+
+    /**
+     * Generate and persist a payroll for the given employee for the specified month.
+     * Salary is computed as dailyRate * daysAttended (days with a recorded check-out).
+     */
+    public Payroll generateMonthlyPayroll(Integer employeeId, int year, int month) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if (employee == null) return null;
+
+        LocalDate start = LocalDate.of(year, month, 1);
+        LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+
+        List<Attendance> attendances = attendanceRepository.findAllByEmployeeAndAttendanceDateBetween(employee, start, end);
+        long daysAttended = attendances.stream().filter(a -> a.getCheckOutTime() != null).map(Attendance::getAttendanceDate).distinct().count();
+
+        BigDecimal dailyRate = employee.getDailyRate() != null ? employee.getDailyRate() : BigDecimal.ZERO;
+        BigDecimal salary = dailyRate.multiply(BigDecimal.valueOf(daysAttended));
+
+        Payroll payroll = new Payroll();
+        payroll.setEmployee(employee);
+        payroll.setSalary(salary);
+        return payRollRepository.save(payroll);
+    }
+
+    /**
+     * Return all payrolls for the given employee.
+     */
+    public List<Payroll> getPayrollsForEmployee(Integer employeeId) {
+        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        if (employee == null) return List.of();
+        return payRollRepository.findAllByEmployee(employee);
     }
 }

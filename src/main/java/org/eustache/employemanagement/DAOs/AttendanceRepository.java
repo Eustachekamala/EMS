@@ -7,8 +7,11 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Optional;
+import java.util.List;
 
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Integer> {
     Optional<Attendance> findByEmployeeAndAttendanceDate(Employee employee, LocalDate date);
+
+    List<Attendance> findAllByEmployeeAndAttendanceDateBetween(Employee employee, LocalDate start, LocalDate end);
 }

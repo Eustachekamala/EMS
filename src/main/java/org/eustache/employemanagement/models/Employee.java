@@ -5,6 +5,7 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.math.BigDecimal;
 
 @Data
 @Entity
@@ -30,6 +31,9 @@ public class Employee {
 
     @Column(unique = true)
     private String rfidTag;
+
+    // Pay information
+    private BigDecimal dailyRate;
 
     //Relationships
     @ManyToOne
