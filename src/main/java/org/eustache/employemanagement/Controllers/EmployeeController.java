@@ -2,15 +2,21 @@ package org.eustache.employemanagement.Controllers;
 
 import org.eustache.employemanagement.DTOs.Requests.EmployeeRequestDTO;
 import org.eustache.employemanagement.DTOs.Requests.UpdateEmployeeRequestDTO;
+import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
+import org.eustache.employemanagement.Exceptions.NotFoundException;
+import org.eustache.employemanagement.Services.AttendanceService;
 import org.eustache.employemanagement.Services.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 
 import java.util.List;
+import java.util.Map;
+
 
 @RestController
 @RequestMapping("employees")
@@ -21,6 +27,8 @@ import java.util.List;
 public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
+    @Autowired
+    private AttendanceService attendanceService;
 
     @GetMapping("/all")
     public ResponseEntity<List<EmployeeResponseDTO>> getAllEmployees() {
@@ -48,9 +56,31 @@ public class EmployeeController {
     }
 
     @GetMapping("/rfid/{rfid}")
-    public ResponseEntity<String> getEmployeeByRfid(@PathVariable String rfid) {
+    public ResponseEntity<EmployeeResponseDTO> getEmployeeByRfid(@PathVariable String rfid) {
         return ResponseEntity.ok(employeeService.getEmployeeByRfid(rfid));
     }
+
+    @PostMapping("/scan")
+    public ResponseEntity<?> scanRfid(@RequestBody Map<String, String> body) {
+        String rfid = body.get("uid");
+        if (rfid == null || rfid.isBlank()) {
+            return ResponseEntity.badRequest().body("RFID cannot be empty");
+        }
+
+        // Get employee info as DTO
+        EmployeeResponseDTO employeeDto;
+        try {
+            employeeDto = employeeService.getEmployeeByRfid(rfid);
+        } catch (NotFoundException ex) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+        }
+
+        // Record attendance
+        AttendanceResponseDTO attendanceDto = attendanceService.recordAttendance(employeeDto);
+
+        return ResponseEntity.ok(attendanceDto);
+    }
+    
 
     @GetMapping("/search/{firstname}")
     public ResponseEntity<EmployeeResponseDTO> getEmployeeByFirstname(@PathVariable String firstname) {

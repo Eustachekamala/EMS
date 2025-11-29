@@ -1,9 +1,10 @@
 package org.eustache.employemanagement.Services; // lowercase
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
+import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.DAOs.AttendanceRepository;
 import org.eustache.employemanagement.DAOs.EmployeeRepository;
 import org.eustache.employemanagement.DAOs.PayRollRepository;
@@ -17,6 +18,7 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -66,9 +68,7 @@ public class AttendanceService {
     private final PayRollRepository payRollRepository;
     private final AttendanceMapper attendanceMapper;
 
-    @Getter
     private final List<AttendanceResponseDTO> history = List.of();
-
     /**
      * Record an attendance event for the given employee DTO.
      * If no attendance exists for today, this creates a check-in.
@@ -128,15 +128,33 @@ public class AttendanceService {
     }
 
     /**
+     * Return the history of attendances for the given employee.
+     */
+    public List<AttendanceResponseDTO> getHistory(){
+        return new ArrayList<>(history);
+    }
+
+    /**
      * Generate and persist a payroll for the given employee for the specified month.
      * Salary is computed as dailyRate * daysAttended (days with a recorded check-out).
      */
     public Payroll generateMonthlyPayroll(Integer employeeId, int year, int month) {
-        Employee employee = employeeRepository.findById(employeeId).orElse(null);
+        Employee employee = employeeRepository.findById(employeeId)
+                .orElseThrow(() -> new NotFoundException("Employee not found with id: " + employeeId));
         if (employee == null) return null;
 
         LocalDate start = LocalDate.of(year, month, 1);
         LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
+
+        // Check if the payroll already exists
+        boolean exists = payRollRepository.existsByEmployeeAndPaymentDateBetween(employee, start, end);
+        if(exists){
+            // Optionally, you can throw an exception or just return the existing payroll
+            return payRollRepository.findByEmployeeAndPaymentDateBetween(employee, start, end)
+                    .stream()
+                    .findFirst()
+                    .orElse(null);
+        }
 
         List<Attendance> attendances = attendanceRepository.findAllByEmployeeAndAttendanceDateBetween(employee, start, end);
         long daysAttended = attendances.stream().filter(a -> a.getCheckOutTime() != null).map(Attendance::getAttendanceDate).distinct().count();

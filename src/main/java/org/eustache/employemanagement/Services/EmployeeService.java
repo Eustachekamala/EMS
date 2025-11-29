@@ -33,7 +33,7 @@ public class EmployeeService {
             employeeRepository.save(employee);
             return "Employee created successfully";
     }
-
+    // This method allow the admin to get all employees
     public List<EmployeeResponseDTO> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
         return employees.stream()
@@ -41,12 +41,14 @@ public class EmployeeService {
                 .toList();
     }
 
+    // This method allow the admin to get employee details by id
     public EmployeeResponseDTO getEmployeeById(Integer id) {
         Employee employee = employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
         return employeeMapper.toResponseDTO(employee);
     }
 
+    // This method allow the admin to delete employee
     public String deleteEmployee(Integer id) {
         if (!employeeRepository.existsById(id)) {
             throw new NotFoundException("Employee not found with id: " + id);
@@ -55,6 +57,7 @@ public class EmployeeService {
         return "Employee deleted successfully";
     }
 
+    // This method allow the admin to update employee details
     public String updateEmployee(Integer id, UpdateEmployeeRequestDTO employeerequestDTO) {
         // We check if the employee exists
         Employee existingEmployee = employeeRepository.findById(id)
@@ -87,10 +90,11 @@ public class EmployeeService {
         return "Employee updated successfully";
     }
 
-    public String getEmployeeByRfid(String rfid) {
+    // This method allow the admin to search employees by the RFID
+    public EmployeeResponseDTO getEmployeeByRfid(String rfid) {
         Employee employee = employeeRepository.findByRfidTag(rfid)
                 .orElseThrow(() -> new NotFoundException("Employee not found with RFID: " + rfid));
-        return "Employee found: " + employee.getFirstname() + " " + employee.getLastname();
+        return employeeMapper.toResponseDTO(employee);
     }
 
     // This method allow the admin to search employees by the name
@@ -100,6 +104,7 @@ public class EmployeeService {
         return employeeMapper.toResponseDTO(employee);
     }
 
+    // This method allow the admin to search employees by the lastname
     public EmployeeResponseDTO getEmployeeByLastname(String lastname) {
         Employee employee = employeeRepository.findByLastname(lastname)
                 .orElseThrow(() -> new NotFoundException("Employee not found with lastname: " + lastname));

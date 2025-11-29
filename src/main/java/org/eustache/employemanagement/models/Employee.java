@@ -5,6 +5,9 @@ import lombok.Data;
 
 import java.time.LocalDate;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.math.BigDecimal;
 
 @Data
@@ -48,5 +51,6 @@ public class Employee {
     private List<Attendance> attendances;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Payroll> payrolls;
 }
