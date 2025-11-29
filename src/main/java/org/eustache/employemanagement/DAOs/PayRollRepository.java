@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface PayRollRepository extends JpaRepository<Payroll, Integer> {
 	boolean existsByEmployeeAndPaymentDateBetween(Employee employee, LocalDate start, LocalDate end);
-	List<Payroll> findByEmployeeAndPaymentDateBetween(Employee employee, LocalDate start, LocalDate end);
+	List<Payroll> findByEmployeeAndPayrollYearAndPayrollMonth(Employee employee, int year, int month);
 	List<Payroll> findAllByEmployee(Employee employee);
 }

@@ -16,6 +16,9 @@ public class Payroll {
     private BigDecimal salary;
     @CreationTimestamp
     private LocalDate paymentDate;
+    private int payrollYear;
+    private int payrollMonth;
+
 
     // Relationship
     @ManyToOne

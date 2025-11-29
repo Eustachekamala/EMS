@@ -1,5 +1,6 @@
 package org.eustache.employemanagement.Controllers;
 
+import org.eustache.employemanagement.DTOs.Responses.PayrollResponseDTO;
 import org.eustache.employemanagement.Services.AttendanceService;
 import org.eustache.employemanagement.models.Payroll;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,14 +23,11 @@ public class PayrollController {
     public ResponseEntity<Payroll> generatePayroll(@PathVariable Integer employeeId,
                                                    @PathVariable int year,
                                                    @PathVariable int month) {
-        Payroll payroll = attendanceService.generateMonthlyPayroll(employeeId, year, month);
-        if (payroll == null) return ResponseEntity.notFound().build();
-        return ResponseEntity.ok(payroll);
+        return ResponseEntity.ok(attendanceService.generateMonthlyPayroll(employeeId, year, month));
     }
 
     @GetMapping("/employee/{employeeId}")
-    public ResponseEntity<List<Payroll>> getPayrollsForEmployee(@PathVariable Integer employeeId) {
-        List<Payroll> payrolls = attendanceService.getPayrollsForEmployee(employeeId);
-        return ResponseEntity.ok(payrolls);
+    public ResponseEntity<List<PayrollResponseDTO>> getPayrollsForEmployee(@PathVariable Integer employeeId) {
+        return ResponseEntity.ok(attendanceService.getPayrollsForEmployee(employeeId));
     }
 }

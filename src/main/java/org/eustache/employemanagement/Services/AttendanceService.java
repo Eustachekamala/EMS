@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 
 import org.eustache.employemanagement.DTOs.Responses.AttendanceResponseDTO;
 import org.eustache.employemanagement.DTOs.Responses.EmployeeResponseDTO;
+import org.eustache.employemanagement.DTOs.Responses.PayrollResponseDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.DAOs.AttendanceRepository;
 import org.eustache.employemanagement.DAOs.EmployeeRepository;
@@ -150,7 +151,7 @@ public class AttendanceService {
         boolean exists = payRollRepository.existsByEmployeeAndPaymentDateBetween(employee, start, end);
         if(exists){
             // Optionally, you can throw an exception or just return the existing payroll
-            return payRollRepository.findByEmployeeAndPaymentDateBetween(employee, start, end)
+            return payRollRepository.findByEmployeeAndPayrollYearAndPayrollMonth(employee, year, month)
                     .stream()
                     .findFirst()
                     .orElse(null);
@@ -165,15 +166,17 @@ public class AttendanceService {
         Payroll payroll = new Payroll();
         payroll.setEmployee(employee);
         payroll.setSalary(salary);
+        payroll.setPayrollYear(year);
+        payroll.setPayrollMonth(month);
         return payRollRepository.save(payroll);
     }
 
     /**
      * Return all payrolls for the given employee.
      */
-    public List<Payroll> getPayrollsForEmployee(Integer employeeId) {
+    public List<PayrollResponseDTO> getPayrollsForEmployee(Integer employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
         if (employee == null) return List.of();
-        return payRollRepository.findAllByEmployee(employee);
+        return payRollRepository.findAllByEmployee(employee).stream().map(payroll -> new PayrollResponseDTO(payroll.getSalary(), payroll.getPaymentDate(), payroll.getPayrollYear(), payroll.getPayrollMonth())).toList();
     }
 }
