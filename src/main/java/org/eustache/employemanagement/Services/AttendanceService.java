@@ -1,4 +1,4 @@
-package org.eustache.employemanagement.Services; // lowercase
+package org.eustache.employemanagement.Services;
 
 import lombok.RequiredArgsConstructor;
 
