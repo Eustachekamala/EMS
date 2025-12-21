@@ -5,16 +5,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import io.swagger.v3.oas.annotations.OpenAPIDefinition;
 import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.servers.Server;;
 @OpenAPIDefinition(
     info = @Info(
         title = "Employee Management System API",
         version = "1.0",
-        description = "API documentation for the Employee Management System"
-    ), 
-    servers = {
-        @Server(url = "http://localhost:8080/api/v1", description = "Local server")
-    }
+        description = "API documentation for the Employee Management System",
+        license = @io.swagger.v3.oas.annotations.info.License(
+            name = "Apache 2.0",
+            url = "http://www.apache.org/licenses/LICENSE-2.0.html"
+        ),
+        contact = @io.swagger.v3.oas.annotations.info.Contact(
+            name = "Eustache",
+            url = "https://github.com/eustachekamala",
+            email = "eustachekamala.dev@gmail.com"
+        )
+    )
 )
 
 @SpringBootApplication
