@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { Plus, Trash2, Briefcase, Building, Edit } from 'lucide-react';
+import { Plus, Trash2, Edit } from 'lucide-react';
 import Layout from '@/components/layout/Layout';
 import Card from '@/components/common/Card';
 import Button from '@/components/common/Button';
@@ -53,7 +53,7 @@ export default function Jobs() {
         if (job) {
             setEditingJob(job);
             // Find department ID based on name or default
-            const dept = departments.find(d => d.name === job.departmentName as any);
+            const dept = departments.find(d => d.name === job.departmentName as string);
             setFormData({
                 title: job.title,
                 description: job.description,
@@ -154,13 +154,9 @@ export default function Jobs() {
                             <Card key={job.jobId} hover>
                                 <div className="flex items-start justify-between mb-4">
                                     <div className="flex items-center gap-3">
-                                        <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center shadow-lg">
-                                            <Briefcase className="h-6 w-6 text-white" />
-                                        </div>
                                         <div>
                                             <h3 className="font-bold text-white text-lg">{job.title}</h3>
                                             <p className="text-sm text-gray-400 flex items-center gap-1">
-                                                <Building className="h-3 w-3" />
                                                 {job.departmentName}
                                             </p>
                                         </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { CreditCard, Shield, Building, CheckCircle2 } from 'lucide-react';
+import { CreditCard, Shield, CheckCircle2 } from 'lucide-react';
 import Button from '@/components/common/Button';
 import Input from '@/components/common/Input';
 import toast from 'react-hot-toast';
@@ -102,14 +102,13 @@ export default function Payment() {
                     <form onSubmit={handleSubmit} className="space-y-6">
                         <div>
                             <h3 className="text-xl font-bold mb-4 flex items-center gap-2">
-                                <Building className="h-5 w-5 text-primary-400" />
                                 Company Details
                             </h3>
                             <div className="space-y-4">
                                 <Input
                                     label="Company Name *"
                                     name="companyName"
-                                    placeholder="e.g. Acme Corp"
+                                    placeholder="e.g. John Doe Inc."
                                     value={formData.companyName}
                                     onChange={handleInputChange}
                                     required
@@ -118,7 +117,7 @@ export default function Payment() {
                                     label="Work Email *"
                                     name="email"
                                     type="email"
-                                    placeholder="you@company.com"
+                                    placeholder="ems@company.com"
                                     value={formData.email}
                                     onChange={handleInputChange}
                                     required
