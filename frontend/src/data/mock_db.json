@@ -187,12 +187,12 @@
         },
         {
             "id": 2,
-            "firstname": "Bob",
-            "lastname": "Johnson",
-            "email": "bob.johnson@example.com",
+            "firstname": "Eustache",
+            "lastname": "Kamala",
+            "email": "eustache.kamala@example.com",
             "phone": "+1234567891",
             "hireDate": "2021-03-10",
-            "birthDate": "1992-08-15",
+            "birthDate": "1988-09-21",
             "gender": "MALE",
             "street": "456 Oak Ave",
             "city": "Los Angeles",
@@ -660,8 +660,8 @@
         },
         {
             "userId": 3,
-            "username": "bob",
-            "email": "bob.johnson@example.com",
+            "username": "eustache",
+            "email": "eustache.kamala@example.com",
             "role": "USER",
             "employeeId": 2,
             "isActive": true
