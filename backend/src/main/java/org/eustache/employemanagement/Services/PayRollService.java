@@ -22,32 +22,45 @@ public class PayRollService {
     private final PayRollRepository payRollRepository;
     private final AttendanceRepository attendanceRepository;
     private final EmployeeRepository employeeRepository;
+
     /**
-     * Generate and persist a payroll for the given employee for the specified month.
-     * Salary is computed as dailyRate * daysAttended (days with a recorded check-out).
+     * Generate and persist a payroll for the given employee for the specified
+     * month.
+     * Salary is computed based on Job salary (if available) or Employee daily rate.
      */
     public Payroll generateMonthlyPayroll(Integer employeeId, int year, int month) {
         Employee employee = employeeRepository.findById(employeeId)
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + employeeId));
-        if (employee == null) return null;
+        if (employee == null)
+            return null;
 
         LocalDate start = LocalDate.of(year, month, 1);
         LocalDate end = start.withDayOfMonth(start.lengthOfMonth());
 
         // Check if the payroll already exists
         boolean exists = payRollRepository.existsByEmployeeAndPaymentDateBetween(employee, start, end);
-        if(exists){
-            // Optionally, you can throw an exception or just return the existing payroll
+        if (exists) {
+            // Return existing
             return payRollRepository.findByEmployeeAndPayrollYearAndPayrollMonth(employee, year, month)
                     .stream()
                     .findFirst()
                     .orElse(null);
         }
 
-        List<Attendance> attendances = attendanceRepository.findAllByEmployeeAndAttendanceDateBetween(employee, start, end);
-        long daysAttended = attendances.stream().filter(a -> a.getCheckOutTime() != null).map(Attendance::getAttendanceDate).distinct().count();
+        List<Attendance> attendances = attendanceRepository.findAllByEmployeeAndAttendanceDateBetween(employee, start,
+                end);
+        long daysAttended = attendances.stream().filter(a -> a.getCheckOutTime() != null)
+                .map(Attendance::getAttendanceDate).distinct().count();
 
-        BigDecimal dailyRate = employee.getDailyRate() != null ? employee.getDailyRate() : BigDecimal.ZERO;
+        BigDecimal dailyRate = BigDecimal.ZERO;
+
+        // Prioritize Job Salary (Monthly / 30)
+        if (employee.getJob() != null && employee.getJob().getSalary() != null) {
+            dailyRate = employee.getJob().getSalary().divide(BigDecimal.valueOf(30), 2, java.math.RoundingMode.HALF_UP);
+        } else if (employee.getDailyRate() != null) {
+            dailyRate = employee.getDailyRate();
+        }
+
         BigDecimal salary = dailyRate.multiply(BigDecimal.valueOf(daysAttended));
 
         Payroll payroll = new Payroll();
@@ -63,7 +76,29 @@ public class PayRollService {
      */
     public List<PayrollResponseDTO> getPayrollsForEmployee(Integer employeeId) {
         Employee employee = employeeRepository.findById(employeeId).orElse(null);
-        if (employee == null) return List.of();
-        return payRollRepository.findAllByEmployee(employee).stream().map(payroll -> new PayrollResponseDTO(payroll.getSalary(), payroll.getPaymentDate(), payroll.getPayrollYear(), payroll.getPayrollMonth())).toList();
+        if (employee == null)
+            return List.of();
+        return payRollRepository.findAllByEmployee(employee).stream()
+                .map(payroll -> new PayrollResponseDTO(payroll.getSalary(), payroll.getPaymentDate(),
+                        payroll.getPayrollYear(), payroll.getPayrollMonth()))
+                .toList();
+    }
+
+    /**
+     * Return all payroll history global.
+     */
+    public List<org.eustache.employemanagement.DTOs.Responses.PayrollHistoryDTO> getAllPayrolls() {
+        return payRollRepository.findAll().stream()
+                .map(p -> new org.eustache.employemanagement.DTOs.Responses.PayrollHistoryDTO(
+                        p.getPayrollId(),
+                        p.getEmployee().getFirstname() + " " + p.getEmployee().getLastname(),
+                        p.getEmployee().getJob() != null ? p.getEmployee().getJob().getTitle() : "N/A",
+                        p.getEmployee().getDepartment() != null ? p.getEmployee().getDepartment().getName().name()
+                                : "N/A",
+                        p.getSalary(),
+                        p.getPaymentDate(),
+                        p.getPayrollYear(),
+                        p.getPayrollMonth()))
+                .toList();
     }
 }

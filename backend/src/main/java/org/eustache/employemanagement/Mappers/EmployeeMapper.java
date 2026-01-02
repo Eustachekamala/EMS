@@ -16,7 +16,7 @@ public class EmployeeMapper {
         employee.setLastname(employeeRequestDTO.lastname());
         employee.setEmail(employeeRequestDTO.email());
         employee.setPhone(employeeRequestDTO.phone());
-        employee.setBirthDate(employeeRequestDTO.dob());
+        employee.setBirthDate(employeeRequestDTO.birthDate());
 
         employee.setHireDate(employeeRequestDTO.hireDate());
         employee.setGender(employeeRequestDTO.gender());
@@ -41,6 +41,11 @@ public class EmployeeMapper {
                 employee.getEmail(),
                 employee.getPhone(),
                 employee.getHireDate(),
+                employee.getBirthDate(),
+                employee.getCountry(),
+                employee.getCity(),
+                employee.getZipcode(),
+                employee.getStreet(),
                 employee.getGender(),
                 employee.getDepartment() != null ? employee.getDepartment().getName().toString() : null,
                 employee.getDepartment() != null ? employee.getDepartment().getDepartmentId() : null,

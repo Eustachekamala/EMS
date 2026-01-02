@@ -21,13 +21,18 @@ public class PayrollController {
 
     @PostMapping("/generate/{employeeId}/{year}/{month}")
     public ResponseEntity<Payroll> generatePayroll(@PathVariable Integer employeeId,
-                                                   @PathVariable int year,
-                                                   @PathVariable int month) {
+            @PathVariable int year,
+            @PathVariable int month) {
         return ResponseEntity.ok(payRollService.generateMonthlyPayroll(employeeId, year, month));
     }
 
     @GetMapping("/employee/{employeeId}")
     public ResponseEntity<List<PayrollResponseDTO>> getPayrollsForEmployee(@PathVariable Integer employeeId) {
         return ResponseEntity.ok(payRollService.getPayrollsForEmployee(employeeId));
+    }
+
+    @GetMapping("/all")
+    public ResponseEntity<List<org.eustache.employemanagement.DTOs.Responses.PayrollHistoryDTO>> getAllPayrolls() {
+        return ResponseEntity.ok(payRollService.getAllPayrolls());
     }
 }

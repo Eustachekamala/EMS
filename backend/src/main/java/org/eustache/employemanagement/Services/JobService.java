@@ -11,7 +11,6 @@ import org.eustache.employemanagement.DTOs.Responses.JobResponseDTO;
 import org.eustache.employemanagement.Exceptions.NotFoundException;
 import org.eustache.employemanagement.Mappers.JobMapper;
 import org.eustache.employemanagement.models.Department;
-import org.eustache.employemanagement.models.DepartmentType;
 import org.eustache.employemanagement.models.Job;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,22 +26,9 @@ public class JobService {
 
     // Create a new Job
     public String createJob(JobRequestDTO job) {
-        DepartmentType departmentType;
-
-        // Validate and fetch or create Department
-        try {
-            departmentType = DepartmentType.valueOf(job.departmentName().name().toUpperCase());
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundException("Invalid department name: " + job.departmentName());
-        }
-
-        // Fetch existing department or create a new one
-        Department department = departmentRepository.findByName(departmentType)
-                .orElseGet(() -> {
-                    Department newDept = new Department();
-                    newDept.setName(departmentType);
-                    return departmentRepository.save(newDept);
-                });
+        // Validate and fetch Department
+        Department department = departmentRepository.findById(job.departmentId())
+                .orElseThrow(() -> new NotFoundException("Department not found with id: " + job.departmentId()));
 
         Job newJob = jobMapper.toEntity(job);
         newJob.setDepartment(department);
@@ -55,9 +41,17 @@ public class JobService {
     public String updateJob(Integer id, JobRequestDTO job) {
         Job existingJob = jobRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Job not found with id: " + id));
+
         Optional.ofNullable(job.title()).ifPresent(existingJob::setTitle);
         Optional.ofNullable(job.description()).ifPresent(existingJob::setDescription);
         Optional.ofNullable(job.salary()).ifPresent(existingJob::setSalary);
+
+        if (job.departmentId() != null) {
+            Department department = departmentRepository.findById(job.departmentId())
+                    .orElseThrow(() -> new NotFoundException("Department not found with id: " + job.departmentId()));
+            existingJob.setDepartment(department);
+        }
+
         jobRepository.save(existingJob);
         return "Job updated successfully";
     }

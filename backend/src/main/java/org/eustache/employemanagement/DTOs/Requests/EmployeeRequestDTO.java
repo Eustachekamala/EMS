@@ -1,5 +1,6 @@
 package org.eustache.employemanagement.DTOs.Requests;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record EmployeeRequestDTO(
@@ -8,7 +9,7 @@ public record EmployeeRequestDTO(
         String email,
         String phone,
         String password,
-        LocalDate dob,
+        LocalDate birthDate,
         String gender,
         LocalDate hireDate,
         String country,
@@ -16,7 +17,7 @@ public record EmployeeRequestDTO(
         String zipcode,
         String street,
         String rfidTag,
-        java.math.BigDecimal dailyRate,
+        BigDecimal dailyRate,
         Integer departmentId,
         Integer jobId) {
 }
