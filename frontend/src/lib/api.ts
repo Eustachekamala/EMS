@@ -9,6 +9,8 @@ export const api = axios.create({
     },
 });
 
+import { mockApi } from './mockApi';
+
 // Request interceptor
 api.interceptors.request.use(
     (config) => {
@@ -30,5 +32,16 @@ api.interceptors.response.use(
         });
     }
 );
+
+// OVERRIDE API WITH MOCK DATA FOR TESTING
+const USE_MOCK = import.meta.env.VITE_USE_MOCK_API === 'true';
+
+if (USE_MOCK) {
+    console.log('⚠️ USING MOCK API');
+    (api as any).get = mockApi.get;
+    (api as any).post = mockApi.post;
+    (api as any).patch = mockApi.patch;
+    (api as any).delete = mockApi.delete;
+}
 
 export default api;

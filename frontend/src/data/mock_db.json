@@ -1,0 +1,670 @@
+{
+    "departments": [
+        {
+            "departmentId": 1,
+            "name": "HR"
+        },
+        {
+            "departmentId": 2,
+            "name": "IT"
+        },
+        {
+            "departmentId": 3,
+            "name": "SALES"
+        },
+        {
+            "departmentId": 4,
+            "name": "FINANCE"
+        },
+        {
+            "departmentId": 5,
+            "name": "MARKETING"
+        },
+        {
+            "departmentId": 6,
+            "name": "OPERATIONS"
+        }
+    ],
+    "jobs": [
+        {
+            "jobId": 1,
+            "title": "HR Manager",
+            "description": "Manage HR department",
+            "salary": 60000,
+            "department": {
+                "departmentId": 1,
+                "name": "HR"
+            }
+        },
+        {
+            "jobId": 2,
+            "title": "Recruiter",
+            "description": "Recruit new talent",
+            "salary": 45000,
+            "department": {
+                "departmentId": 1,
+                "name": "HR"
+            }
+        },
+        {
+            "jobId": 3,
+            "title": "Software Engineer",
+            "description": "Develop applications",
+            "salary": 75000,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            }
+        },
+        {
+            "jobId": 4,
+            "title": "DevOps Engineer",
+            "description": "Manage infrastructure",
+            "salary": 80000,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            }
+        },
+        {
+            "jobId": 5,
+            "title": "Sales Representative",
+            "description": "Sell products",
+            "salary": 40000,
+            "department": {
+                "departmentId": 3,
+                "name": "SALES"
+            }
+        },
+        {
+            "jobId": 6,
+            "title": "Accountant",
+            "description": "Manage finances",
+            "salary": 55000,
+            "department": {
+                "departmentId": 4,
+                "name": "FINANCE"
+            }
+        },
+        {
+            "jobId": 7,
+            "title": "Marketing Specialist",
+            "description": "Create campaigns",
+            "salary": 48000,
+            "department": {
+                "departmentId": 5,
+                "name": "MARKETING"
+            }
+        },
+        {
+            "jobId": 8,
+            "title": "Operations Manager",
+            "description": "Oversee operations",
+            "salary": 65000,
+            "department": {
+                "departmentId": 6,
+                "name": "OPERATIONS"
+            }
+        }
+    ],
+    "employees": [
+        {
+            "id": 1,
+            "firstname": "Alice",
+            "lastname": "Smith",
+            "email": "alice.smith@example.com",
+            "phone": "+1234567890",
+            "hireDate": "2020-01-15",
+            "birthDate": "1990-05-20",
+            "gender": "FEMALE",
+            "street": "123 Main St",
+            "city": "New York",
+            "country": "USA",
+            "zipcode": "10001",
+            "rfidTag": "RFID001",
+            "dailyRate": 250.00,
+            "department": {
+                "departmentId": 1,
+                "name": "HR"
+            },
+            "job": {
+                "jobId": 1,
+                "title": "HR Manager"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 1,
+                    "attendanceDate": "2023-10-01",
+                    "checkInTime": "09:00:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 2,
+                    "attendanceDate": "2023-10-02",
+                    "checkInTime": "09:00:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 3,
+                    "attendanceDate": "2023-10-03",
+                    "checkInTime": "09:05:00",
+                    "checkOutTime": "17:15:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 4,
+                    "attendanceDate": "2023-10-04",
+                    "checkInTime": "09:00:00",
+                    "checkOutTime": "17:30:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 5,
+                    "attendanceDate": "2023-10-05",
+                    "checkInTime": "08:55:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": [
+                {
+                    "payrollId": 1,
+                    "salary": 7500.00,
+                    "paymentDate": "2023-10-31",
+                    "payrollYear": 2023,
+                    "payrollMonth": 10
+                },
+                {
+                    "payrollId": 2,
+                    "salary": 7500.00,
+                    "paymentDate": "2023-09-30",
+                    "payrollYear": 2023,
+                    "payrollMonth": 9
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "firstname": "Bob",
+            "lastname": "Johnson",
+            "email": "bob.johnson@example.com",
+            "phone": "+1234567891",
+            "hireDate": "2021-03-10",
+            "birthDate": "1992-08-15",
+            "gender": "MALE",
+            "street": "456 Oak Ave",
+            "city": "Los Angeles",
+            "country": "USA",
+            "zipcode": "90001",
+            "rfidTag": "RFID002",
+            "dailyRate": 300.00,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            },
+            "job": {
+                "jobId": 3,
+                "title": "Software Engineer"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 6,
+                    "attendanceDate": "2023-10-01",
+                    "checkInTime": "09:15:00",
+                    "checkOutTime": "17:15:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 7,
+                    "attendanceDate": "2023-10-02",
+                    "checkInTime": "09:10:00",
+                    "checkOutTime": "17:10:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 8,
+                    "attendanceDate": "2023-10-03",
+                    "checkInTime": "09:12:00",
+                    "checkOutTime": "17:15:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": [
+                {
+                    "payrollId": 3,
+                    "salary": 9000.00,
+                    "paymentDate": "2023-10-31",
+                    "payrollYear": 2023,
+                    "payrollMonth": 10
+                }
+            ]
+        },
+        {
+            "id": 3,
+            "firstname": "Charlie",
+            "lastname": "Brown",
+            "email": "charlie.brown@example.com",
+            "phone": "+1234567892",
+            "hireDate": "2019-11-05",
+            "birthDate": "1988-12-01",
+            "gender": "MALE",
+            "street": "789 Pine Ln",
+            "city": "Chicago",
+            "country": "USA",
+            "zipcode": "60601",
+            "rfidTag": "RFID003",
+            "dailyRate": 180.00,
+            "department": {
+                "departmentId": 3,
+                "name": "SALES"
+            },
+            "job": {
+                "jobId": 5,
+                "title": "Sales Representative"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 9,
+                    "attendanceDate": "2023-10-01",
+                    "checkInTime": "08:50:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 10,
+                    "attendanceDate": "2023-10-04",
+                    "checkInTime": "08:55:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": [
+                {
+                    "payrollId": 4,
+                    "salary": 5400.00,
+                    "paymentDate": "2023-10-31",
+                    "payrollYear": 2023,
+                    "payrollMonth": 10
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "firstname": "Diana",
+            "lastname": "Prince",
+            "email": "diana.prince@example.com",
+            "phone": "+1234567893",
+            "hireDate": "2022-06-20",
+            "birthDate": "1995-03-30",
+            "gender": "FEMALE",
+            "street": "101 Maple Dr",
+            "city": "Seattle",
+            "country": "USA",
+            "zipcode": "98101",
+            "rfidTag": "RFID004",
+            "dailyRate": 320.00,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            },
+            "job": {
+                "jobId": 4,
+                "title": "DevOps Engineer"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 11,
+                    "attendanceDate": "2023-10-01",
+                    "checkInTime": "09:30:00",
+                    "checkOutTime": "18:00:00",
+                    "attendanceStatus": "PRESENT"
+                },
+                {
+                    "attendanceId": 12,
+                    "attendanceDate": "2023-10-02",
+                    "checkInTime": "09:35:00",
+                    "checkOutTime": "18:05:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": [
+                {
+                    "payrollId": 5,
+                    "salary": 9600.00,
+                    "paymentDate": "2023-10-31",
+                    "payrollYear": 2023,
+                    "payrollMonth": 10
+                }
+            ]
+        },
+        {
+            "id": 5,
+            "firstname": "Evan",
+            "lastname": "Wright",
+            "email": "evan.wright@example.com",
+            "phone": "+1234567894",
+            "hireDate": "2021-09-01",
+            "birthDate": "1991-07-10",
+            "gender": "MALE",
+            "street": "202 birch Rd",
+            "city": "Austin",
+            "country": "USA",
+            "zipcode": "73301",
+            "rfidTag": "RFID005",
+            "dailyRate": 220.00,
+            "department": {
+                "departmentId": 4,
+                "name": "FINANCE"
+            },
+            "job": {
+                "jobId": 6,
+                "title": "Accountant"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 13,
+                    "attendanceDate": "2023-10-03",
+                    "checkInTime": "09:00:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": []
+        },
+        {
+            "id": 6,
+            "firstname": "Fiona",
+            "lastname": "Gallagher",
+            "email": "fiona.gallagher@example.com",
+            "phone": "+1234567895",
+            "hireDate": "2018-05-15",
+            "birthDate": "1989-02-28",
+            "gender": "FEMALE",
+            "street": "303 Cedar St",
+            "city": "Boston",
+            "country": "USA",
+            "zipcode": "02108",
+            "rfidTag": "RFID006",
+            "dailyRate": 200.00,
+            "department": {
+                "departmentId": 5,
+                "name": "MARKETING"
+            },
+            "job": {
+                "jobId": 7,
+                "title": "Marketing Specialist"
+            },
+            "attendances": [
+                {
+                    "attendanceId": 14,
+                    "attendanceDate": "2023-10-05",
+                    "checkInTime": "09:00:00",
+                    "checkOutTime": "17:00:00",
+                    "attendanceStatus": "PRESENT"
+                }
+            ],
+            "payrolls": []
+        },
+        {
+            "id": 7,
+            "firstname": "George",
+            "lastname": "Miller",
+            "email": "george.miller@example.com",
+            "phone": "+1234567896",
+            "hireDate": "2020-11-20",
+            "birthDate": "1985-09-12",
+            "gender": "MALE",
+            "street": "404 Elm St",
+            "city": "Denver",
+            "country": "USA",
+            "zipcode": "80201",
+            "rfidTag": "RFID007",
+            "dailyRate": 270.00,
+            "department": {
+                "departmentId": 6,
+                "name": "OPERATIONS"
+            },
+            "job": {
+                "jobId": 8,
+                "title": "Operations Manager"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 8,
+            "firstname": "Hannah",
+            "lastname": "Montana",
+            "email": "hannah.montana@example.com",
+            "phone": "+1234567897",
+            "hireDate": "2023-01-10",
+            "birthDate": "2000-11-23",
+            "gender": "FEMALE",
+            "street": "505 Sunset Blvd",
+            "city": "Miami",
+            "country": "USA",
+            "zipcode": "33101",
+            "rfidTag": "RFID008",
+            "dailyRate": 190.00,
+            "department": {
+                "departmentId": 1,
+                "name": "HR"
+            },
+            "job": {
+                "jobId": 2,
+                "title": "Recruiter"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 9,
+            "firstname": "Ian",
+            "lastname": "Somerhalder",
+            "email": "ian.somerhalder@example.com",
+            "phone": "+1234567898",
+            "hireDate": "2021-04-12",
+            "birthDate": "1993-01-20",
+            "gender": "MALE",
+            "street": "606 Mystic Falls",
+            "city": "Atlanta",
+            "country": "USA",
+            "zipcode": "30301",
+            "rfidTag": "RFID009",
+            "dailyRate": 310.00,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            },
+            "job": {
+                "jobId": 3,
+                "title": "Software Engineer"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 10,
+            "firstname": "Jane",
+            "lastname": "Doe",
+            "email": "jane.doe@example.com",
+            "phone": "+1234567899",
+            "hireDate": "2022-02-14",
+            "birthDate": "1996-06-16",
+            "gender": "FEMALE",
+            "street": "707 Baker St",
+            "city": "London",
+            "country": "UK",
+            "zipcode": "SW1A 1AA",
+            "rfidTag": "RFID010",
+            "dailyRate": 260.00,
+            "department": {
+                "departmentId": 3,
+                "name": "SALES"
+            },
+            "job": {
+                "jobId": 5,
+                "title": "Sales Representative"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 11,
+            "firstname": "Kevin",
+            "lastname": "Hart",
+            "email": "kevin.hart@example.com",
+            "phone": "+1234567800",
+            "hireDate": "2020-08-30",
+            "birthDate": "1979-07-06",
+            "gender": "MALE",
+            "street": "808 Comedy Ln",
+            "city": "Philadelphia",
+            "country": "USA",
+            "zipcode": "19101",
+            "rfidTag": "RFID011",
+            "dailyRate": 400.00,
+            "department": {
+                "departmentId": 5,
+                "name": "MARKETING"
+            },
+            "job": {
+                "jobId": 7,
+                "title": "Marketing Specialist"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 12,
+            "firstname": "Laura",
+            "lastname": "Croft",
+            "email": "laura.croft@example.com",
+            "phone": "+1234567801",
+            "hireDate": "2019-03-22",
+            "birthDate": "1994-02-14",
+            "gender": "FEMALE",
+            "street": "909 Tomb Raider Rd",
+            "city": "Derby",
+            "country": "UK",
+            "zipcode": "DE1 1AA",
+            "rfidTag": "RFID012",
+            "dailyRate": 280.00,
+            "department": {
+                "departmentId": 6,
+                "name": "OPERATIONS"
+            },
+            "job": {
+                "jobId": 8,
+                "title": "Operations Manager"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 13,
+            "firstname": "Mike",
+            "lastname": "Ross",
+            "email": "mike.ross@example.com",
+            "phone": "+1234567802",
+            "hireDate": "2021-12-01",
+            "birthDate": "1990-08-27",
+            "gender": "MALE",
+            "street": "1010 Legal Ave",
+            "city": "New York",
+            "country": "USA",
+            "zipcode": "10002",
+            "rfidTag": "RFID013",
+            "dailyRate": 350.00,
+            "department": {
+                "departmentId": 4,
+                "name": "FINANCE"
+            },
+            "job": {
+                "jobId": 6,
+                "title": "Accountant"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 14,
+            "firstname": "Nina",
+            "lastname": "Dobrev",
+            "email": "nina.dobrev@example.com",
+            "phone": "+1234567803",
+            "hireDate": "2023-05-05",
+            "birthDate": "1989-01-09",
+            "gender": "FEMALE",
+            "street": "1111 Vampire St",
+            "city": "Sofia",
+            "country": "Bulgaria",
+            "zipcode": "1000",
+            "rfidTag": "RFID014",
+            "dailyRate": 160.00,
+            "department": {
+                "departmentId": 1,
+                "name": "HR"
+            },
+            "job": {
+                "jobId": 2,
+                "title": "Recruiter"
+            },
+            "attendances": [],
+            "payrolls": []
+        },
+        {
+            "id": 15,
+            "firstname": "Oscar",
+            "lastname": "Isaac",
+            "email": "oscar.isaac@example.com",
+            "phone": "+1234567804",
+            "hireDate": "2020-07-20",
+            "birthDate": "1979-03-09",
+            "gender": "MALE",
+            "street": "1212 Star Wars Blvd",
+            "city": "Guatemala City",
+            "country": "Guatemala",
+            "zipcode": "01001",
+            "rfidTag": "RFID015",
+            "dailyRate": 290.00,
+            "department": {
+                "departmentId": 2,
+                "name": "IT"
+            },
+            "job": {
+                "jobId": 4,
+                "title": "DevOps Engineer"
+            },
+            "attendances": [],
+            "payrolls": []
+        }
+    ],
+    "users": [
+        {
+            "userId": 1,
+            "username": "admin",
+            "email": "admin@example.com",
+            "role": "ADMIN",
+            "isActive": true
+        },
+        {
+            "userId": 2,
+            "username": "alice",
+            "email": "alice.smith@example.com",
+            "role": "USER",
+            "employeeId": 1,
+            "isActive": true
+        },
+        {
+            "userId": 3,
+            "username": "bob",
+            "email": "bob.johnson@example.com",
+            "role": "USER",
+            "employeeId": 2,
+            "isActive": true
+        }
+    ]
+}
