@@ -51,7 +51,6 @@ public class JobService {
         return "Job created successfully";
     }
 
-
     // Update an existing Job
     public String updateJob(Integer id, JobRequestDTO job) {
         Job existingJob = jobRepository.findById(id)
@@ -86,10 +85,10 @@ public class JobService {
     }
 
     // Get all Jobs
-    public List<JobResponseDTO> getAll(){
+    public List<JobResponseDTO> getAll() {
         List<Job> jobs = jobRepository.findAll();
         if (jobs.isEmpty()) {
-            throw new NotFoundException("No jobs found");
+            return List.of();
         }
         return jobs.stream()
                 .map(jobMapper::toDTO)

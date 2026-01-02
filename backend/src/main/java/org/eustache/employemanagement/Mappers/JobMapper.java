@@ -11,7 +11,8 @@ import org.springframework.stereotype.Component;
 public class JobMapper {
     // Convert Job entity to JobDTO
     public Job toEntity(JobRequestDTO jobDTO) {
-        if (jobDTO == null) return null;
+        if (jobDTO == null)
+            return null;
         Job job = new Job();
         job.setTitle(jobDTO.title());
         job.setDescription(jobDTO.description());
@@ -21,12 +22,13 @@ public class JobMapper {
 
     // Convert JobDTO to Job entity
     public JobResponseDTO toDTO(Job job) {
-        if (job == null) return null;
+        if (job == null)
+            return null;
         return new JobResponseDTO(
                 job.getJobId(),
-                job.getDepartment().getName().name(),
+                job.getDepartment() != null ? job.getDepartment().getName().name() : null,
                 job.getTitle(),
-                job.getDescription()
-        );
+                job.getDescription(),
+                job.getSalary());
     }
 }

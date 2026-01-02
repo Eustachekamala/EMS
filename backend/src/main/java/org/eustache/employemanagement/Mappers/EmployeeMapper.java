@@ -9,10 +9,11 @@ import org.springframework.stereotype.Component;
 public class EmployeeMapper {
 
     public Employee toEntity(EmployeeRequestDTO employeeRequestDTO) {
-        if (employeeRequestDTO == null) return null;
+        if (employeeRequestDTO == null)
+            return null;
         Employee employee = new Employee();
-        employee.setFirstname(employeeRequestDTO.firstName());
-        employee.setLastname(employeeRequestDTO.lastName());
+        employee.setFirstname(employeeRequestDTO.firstname());
+        employee.setLastname(employeeRequestDTO.lastname());
         employee.setEmail(employeeRequestDTO.email());
         employee.setPhone(employeeRequestDTO.phone());
         employee.setBirthDate(employeeRequestDTO.dob());
@@ -23,11 +24,16 @@ public class EmployeeMapper {
         employee.setStreet(employeeRequestDTO.street());
         employee.setCountry(employeeRequestDTO.country());
         employee.setZipcode(employeeRequestDTO.zipcode());
+
+        employee.setPassword(employeeRequestDTO.password());
+        employee.setRfidTag(employeeRequestDTO.rfidTag());
+        employee.setDailyRate(employeeRequestDTO.dailyRate());
         return employee;
     }
 
     public EmployeeResponseDTO toResponseDTO(Employee employee) {
-        if(employee == null) return null;
+        if (employee == null)
+            return null;
         return new EmployeeResponseDTO(
                 employee.getId(),
                 employee.getFirstname(),
@@ -37,8 +43,9 @@ public class EmployeeMapper {
                 employee.getHireDate(),
                 employee.getGender(),
                 employee.getDepartment() != null ? employee.getDepartment().getName().toString() : null,
+                employee.getDepartment() != null ? employee.getDepartment().getDepartmentId() : null,
                 employee.getJob() != null ? employee.getJob().getTitle() : null,
-                employee.getRfidTag()
-        );
+                employee.getJob() != null ? employee.getJob().getJobId() : null,
+                employee.getRfidTag());
     }
 }

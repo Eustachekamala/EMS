@@ -29,10 +29,27 @@ public class EmployeeService {
     private DepartmentRepository departmentRepository;
 
     public String createEmployee(EmployeeRequestDTO employeerequestDTO) {
-            Employee employee = employeeMapper.toEntity(employeerequestDTO);
-            employeeRepository.save(employee);
-            return "Employee created successfully";
+        Employee employee = employeeMapper.toEntity(employeerequestDTO);
+
+        // Handle Department
+        if (employeerequestDTO.departmentId() != null) {
+            Department department = departmentRepository.findById(employeerequestDTO.departmentId())
+                    .orElseThrow(() -> new NotFoundException(
+                            "Department not found with id: " + employeerequestDTO.departmentId()));
+            employee.setDepartment(department);
+        }
+
+        // Handle Job
+        if (employeerequestDTO.jobId() != null) {
+            Job job = jobRepository.findById(employeerequestDTO.jobId())
+                    .orElseThrow(() -> new NotFoundException("Job not found with id: " + employeerequestDTO.jobId()));
+            employee.setJob(job);
+        }
+
+        employeeRepository.save(employee);
+        return "Employee created successfully";
     }
+
     // This method allow the admin to get all employees
     public List<EmployeeResponseDTO> getAllEmployees() {
         List<Employee> employees = employeeRepository.findAll();
@@ -63,8 +80,8 @@ public class EmployeeService {
         Employee existingEmployee = employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Employee not found with id: " + id));
         // We update the employee details
-        Optional.ofNullable(employeerequestDTO.firstName()).ifPresent(existingEmployee::setFirstname);
-        Optional.ofNullable(employeerequestDTO.lastName()).ifPresent(existingEmployee::setLastname);
+        Optional.ofNullable(employeerequestDTO.firstname()).ifPresent(existingEmployee::setFirstname);
+        Optional.ofNullable(employeerequestDTO.lastname()).ifPresent(existingEmployee::setLastname);
         Optional.ofNullable(employeerequestDTO.email()).ifPresent(existingEmployee::setEmail);
         Optional.ofNullable(employeerequestDTO.phone()).ifPresent(existingEmployee::setPhone);
         Optional.ofNullable(employeerequestDTO.dob()).ifPresent(existingEmployee::setBirthDate);
@@ -75,13 +92,14 @@ public class EmployeeService {
         Optional.ofNullable(employeerequestDTO.zipcode()).ifPresent(existingEmployee::setZipcode);
         Optional.ofNullable(employeerequestDTO.street()).ifPresent(existingEmployee::setStreet);
         // We check if the job exists before we assign it to the employee
-        if(employeerequestDTO.departmentId() != null) {
+        if (employeerequestDTO.departmentId() != null) {
             Department department = departmentRepository.findById(employeerequestDTO.departmentId())
-                    .orElseThrow(() -> new NotFoundException("Department not found with id: " + employeerequestDTO.departmentId()));
+                    .orElseThrow(() -> new NotFoundException(
+                            "Department not found with id: " + employeerequestDTO.departmentId()));
             existingEmployee.setDepartment(department);
         }
         // We check if the department exists before we assign it to the employee
-        if(employeerequestDTO.jobId() != null) {
+        if (employeerequestDTO.jobId() != null) {
             Job job = jobRepository.findById(employeerequestDTO.jobId())
                     .orElseThrow(() -> new NotFoundException("Job not found with id: " + employeerequestDTO.jobId()));
             existingEmployee.setJob(job);
