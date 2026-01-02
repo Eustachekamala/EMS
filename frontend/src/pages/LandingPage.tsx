@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronRight, Shield, Users, BarChart3, Clock, CheckCircle2, Menu, X } from 'lucide-react';
+import { ChevronRight, Shield, Users, BarChart3, Clock, CheckCircle2, Menu, X, ArrowRight } from 'lucide-react';
 import Button from '@/components/common/Button';
+import toast from 'react-hot-toast';
 
 export default function LandingPage() {
     const navigate = useNavigate();
     const [isScrolled, setIsScrolled] = useState(false);
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const [newsletterEmail, setNewsletterEmail] = useState('');
 
     useEffect(() => {
         const handleScroll = () => {
@@ -24,6 +26,17 @@ export default function LandingPage() {
         }
     };
 
+    const handleSubscribe = () => {
+        if (!newsletterEmail) {
+            toast.error('Please enter a valid email address.');
+            return;
+        }
+        const subject = encodeURIComponent('Subscribe to EMS Pro Newsletter');
+        const body = encodeURIComponent(`Please add ${newsletterEmail} to the EMS Pro newsletter list.`);
+        // Open the user's default mail client with prefilled recipient, subject and body
+        window.location.href = `mailto:eustachekamala.dev@gmail.com?subject=${subject}&body=${body}`;
+    }
+
     return (
         <div className="min-h-screen bg-gray-900 text-white overflow-hidden font-sans selection:bg-primary-500/30">
             {/* Navbar */}
@@ -32,9 +45,9 @@ export default function LandingPage() {
                     <div className="flex items-center justify-between h-16">
                         {/* Logo */}
                         <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
-                            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-primary-500/20">
+                            {/* <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-primary-500 to-indigo-600 flex items-center justify-center font-bold text-xl text-white shadow-lg shadow-primary-500/20">
                                 E
-                            </div>
+                            </div> */}
                             <span className="font-bold text-2xl tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400">
                                 EMS Pro
                             </span>
@@ -116,8 +129,8 @@ export default function LandingPage() {
                     {/* Stats */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mt-20 border-t border-white/10 pt-10">
                         {[
-                            { label: 'Active Users', value: '10k+' },
-                            { label: 'Companies', value: '500+' },
+                            { label: 'Active Users', value: '2k+' },
+                            { label: 'Companies', value: '50+' },
                             { label: 'Uptime', value: '99.9%' },
                             { label: 'Support', value: '24/7' },
                         ].map((stat, i) => (
@@ -285,9 +298,59 @@ export default function LandingPage() {
             </div>
 
             {/* Footer */}
-            <footer className="border-t border-white/10 py-12 bg-gray-900">
-                <div className="max-w-7xl mx-auto px-4 text-center text-gray-500 text-sm">
-                    <p>&copy; 2026 EMS Pro. All rights reserved.</p>
+            <footer className="border-t border-white/10 bg-gray-900 pt-16 pb-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-12">
+                        {/* Brand Column */}
+                        <div className="space-y-4">
+                            <div className="flex items-center gap-2">
+                                <span className="font-bold text-xl tracking-tight text-white">
+                                    EMS Pro
+                                </span>
+                            </div>
+                            <p className="text-gray-400 text-sm leading-relaxed">
+                                Streamlining workforce management for modern enterprises. Built for scale, security, and simplicity.
+                            </p>
+                        </div>
+
+                        {/* Product Column */}
+                        <div>
+                            <h4 className="font-bold text-white mb-6">Product</h4>
+                            <ul className="space-y-3 text-sm text-gray-400">
+                                {['Features', 'Pricing', 'Integrations'].map((item) => (
+                                    <li key={item}>
+                                        <a href="#" className="hover:text-primary-400 transition-colors">{item}</a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+
+                        {/* Newsletter Column */}
+                        <div>
+                            <h4 className="font-bold text-white mb-6">Stay Updated</h4>
+                            <p className="text-gray-400 text-sm mb-4">
+                                Subscribe to our newsletter for the latest updates and features.
+                            </p>
+                            <div className="flex gap-2">
+                                <input
+                                    type="email"
+                                    placeholder="Enter your email"
+                                    value={newsletterEmail}
+                                    onChange={(e) => setNewsletterEmail(e.target.value)}
+                                    className="bg-white/5 border border-white/10 rounded-lg px-4 py-2 text-sm text-white focus:outline-none focus:border-primary-500 focus:ring-1 focus:ring-primary-500 w-full"
+                                />
+                                <button onClick={handleSubscribe} className="p-2 rounded-lg bg-primary-600 hover:bg-primary-500 text-white transition-colors">
+                                    <ArrowRight className="h-4 w-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+                        <p className="text-gray-500 text-sm">
+                            &copy; 2026 EMS Pro. All rights reserved.
+                        </p>
+                    </div>
                 </div>
             </footer>
         </div>
